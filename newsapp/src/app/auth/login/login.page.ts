@@ -11,7 +11,7 @@ export class LoginPage implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
   login(form){
     this.authService.login(form.value).subscribe((res) => {
-      this.router.navigateByUrl('home');
+      this.router.navigateByUrl('');
     })
   }
   ngOnInit() {

@@ -1,9 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content color="primary">
   <form #form="ngForm" (ngSubmit) = "register(form)">
     <ion-grid>
@@ -14,10 +8,19 @@
           </div>
             <div padding>
               <ion-item>
-                <ion-input  name="name" type="text" placeholder="Name" ngModel required></ion-input>
+                <ion-input  name="firstName" type="text" placeholder="Name" ngModel required></ion-input>
               </ion-item>
               <ion-item>
-                <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
+                <ion-input  name="lastName" type="text" placeholder="Last name" ngModel required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input name="userName" type="text" placeholder="User Name" ngModel required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input  name="age" type="number" placeholder="How old are you?" ngModel required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input name="email" type="email" placeholder="example@example.com" ngModel required></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input name="password" type="password" placeholder="Password" ngModel required></ion-input>

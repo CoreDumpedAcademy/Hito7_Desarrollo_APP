@@ -22,8 +22,11 @@ export class AuthService {
       tap(async (res:  AuthResponse ) => {
 
         if (res.user) {
-          await this.storage.set("ACCESS_TOKEN", res.user.access_token);
-          await this.storage.set("EXPIRES_IN", res.user.expires_in);
+          //CUANDO MATIAS TENGA LO DEL TOKEN SE DESCOMENTA ESTA SECCIÓN Y SE BORRA LO DE ABAJO.
+          /*await this.storage.set("ACCESS_TOKEN", res.user.access_token);
+          await this.storage.set("EXPIRES_IN", res.user.expires_in);*/
+          await this.storage.set("ACCESS_TOKEN", 12345);//BORRAR
+          await this.storage.set("EXPIRES_IN", 9999);//BORRAR
           this.authSubject.next(true);
         }
       })
@@ -34,8 +37,11 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}logUser`, user).pipe(
       tap(async (res: AuthResponse)=> {
         if(res.user){
-          await this.storage.set("ACCESS_TOKEN", res.user.access_token);
-          await this.storage.set("EXPIRES_IN", res.user.expires_in);
+          //CUANDO MATIAS TENGA LO DEL TOKEN SE DESCOMENTA ESTA SECCIÓN Y SE BORRA LO DE ABAJO.
+          /*await this.storage.set("ACCESS_TOKEN", res.user.access_token);
+          await this.storage.set("EXPIRES_IN", res.user.expires_in);*/
+          await this.storage.set("ACCESS_TOKEN", 12345);//BORRAR
+          await this.storage.set("EXPIRES_IN", 9999);//BORRAR
           this.authSubject.next(true);    
         }
       })
