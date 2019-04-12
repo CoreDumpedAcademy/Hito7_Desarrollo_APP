@@ -1,9 +1,35 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
+  <ion-toolbar class = "container">
+    <ion-title> 
+      CATEGORIES
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<!--Slider de categorías-->
+<ion-content>
+    <ion-slides [options]="sliderConfig">
+      <ion-slide *ngFor="let cat of categories">
+        <ion-card class= "slides" (click)= "openCategory()" >
+        
+              <img src= "../../assets/images/categories/{{ cat.img }}">
+         
+        </ion-card>
+      </ion-slide>
+    </ion-slides> 
 
-<ion-content></ion-content>
+
+<!--Noticias-->
+  <ion-card>
+    <ion-card-header>
+        <ion-card-content>
+            <img src= "../../assets/images/categories/image.jpg" style= "height: 100%;">
+         </ion-card-content>
+      <ion-card-title>Titular</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Keep close to Nature's heart... and break clear away, once in awhile,
+      and climb a mountain or spend a week in the woods. Wash your spirit clean.
+    </ion-card-content>
+  </ion-card>
+</ion-content>
