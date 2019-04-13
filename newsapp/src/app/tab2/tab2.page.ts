@@ -33,7 +33,8 @@ export class Tab2Page {
   //Funiones de la API
 
 }
+/* @mariam no se que es pero me da error xd
 export class NewsPage implements OnInit {
-
   
 }
+*/
