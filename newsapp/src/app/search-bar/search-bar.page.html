@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>search-bar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="keyWords"></ion-searchbar>
+  <h1>{{keyWords}}</h1>
+  <ion-button (click)="search()">BUSCA</ion-button>
+</ion-content>
