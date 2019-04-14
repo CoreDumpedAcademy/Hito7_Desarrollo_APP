@@ -1,31 +1,27 @@
 <ion-header>
   <ion-toolbar>
     <ion-title style="text-align: center">
-      Profile
+      @User's profile
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="banner">
-    <br><br><br><br>
+    <br><br><br><br><br>
     <img src="../../assets/images/default-images/download.jpg">
-    <br><br><br>
-    <ion-row>
-      <ion-col>
-        <ion-button>Edit</ion-button>
-      </ion-col>
-      <ion-col>
-        <!-- botón que mostrará el nombre del usuario. Había pensado meter el logout aquí-->
-        <ion-button>@User</ion-button>
-      </ion-col>
-    </ion-row>
+    <br><br><br><br><br>
   </div>
   <ion-toolbar>
       <ion-title style="text-align: center">
         FEED
       </ion-title>
   </ion-toolbar>
+  <ion-fab vertical="top" horizontal="start">
+    <ion-fab-button>
+      <ion-icon name="settings"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-card class="light">
     <ion-card-content>
       <ion-card-title>
@@ -33,6 +29,7 @@
       </ion-card-title>
       Hi! Thanks for downloading and creating an account in Pioliin! Your support means the world to us!<br>
       Your saved news will be stored here!
+      <br><br><br>
     </ion-card-content>
   </ion-card>
 </ion-content>
