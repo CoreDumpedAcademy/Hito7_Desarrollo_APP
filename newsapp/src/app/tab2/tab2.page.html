@@ -30,5 +30,9 @@
       <ion-card-content>
           {{ article.description }}
       </ion-card-content>
+      <ion-chip color="tertiary" (click)="saveNew(this.article)">
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-label>Save New</ion-label>
+      </ion-chip>      
     </ion-card>
   </ion-content>

@@ -40,4 +40,7 @@ export class Tab2Page {
       (error) => {console.log(error);}
     )
   }
+  saveNew(noticia){
+    console.log(noticia)
+  }
 }
