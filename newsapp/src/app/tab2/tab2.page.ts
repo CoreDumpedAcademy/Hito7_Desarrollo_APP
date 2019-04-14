@@ -40,7 +40,8 @@ export class Tab2Page {
       (error) => {console.log(error);}
     )
   }
+
   saveNew(noticia){
-    console.log(noticia)
+    alert("Aquí habría que guardar la noticia en el usuario actual. Todavía no se puede; necesitamos activar la autentificación")
   }
 }
