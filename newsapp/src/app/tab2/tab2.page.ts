@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { NewsService } from '../../service/news.service';
+
 
 @Component({
   selector: 'app-tab2',
@@ -9,16 +11,18 @@ import { NavController } from '@ionic/angular';
 export class Tab2Page {
   
       categories: Array <any> = [];
-    
+      news
   
-  constructor(public navCtrl: NavController){
+  constructor(public navCtrl: NavController, public service: NewsService){
     this.categories = [
-      {name:'DEPORTE', img:'sports.jpg' },
-      {name:'ECONOMÍA', img:'economy.jpg'},
-      {name: 'TECNOLOGÍA', img:'technology.jpg'},
-      {name: 'CIENCIA', img:'science.jpg'},
-      {name:'SALUD', img: 'health.jpg'},
-      {name: 'ENTRENAMIENTO', img:'entertainment.jpg'}
+      {name:'sports', img:'sports.jpg' },
+      {name:'business', img:'economy.jpg'},
+      {name: 'technology', img:'technology.jpg'},
+      {name: 'science', img:'science.jpg'},
+      {name:'health', img: 'health.jpg'},
+      {name: 'entertainment', img:'entertainment.jpg'},
+      {name: 'general', img:'general.jpg'}
+
     ]
   }
   
@@ -30,11 +34,16 @@ export class Tab2Page {
    slidesPerView: 2.3
   }
 
-  //Funiones de la API
+  //Actualizar pagina
 
+  //Funiones de la API
+  ionViewDidLoad(categories){
+    this.service.readCategory(categories.name)
+    .subscribe(
+      (data) => {this.news = data;
+        console.log(data);},
+      (error) => {console.log(error);}
+    )
+  }
 }
-/* @mariam no se que es pero me da error xd
-export class NewsPage implements OnInit {
-  
-}
-*/
+
