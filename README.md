@@ -1,6 +1,6 @@
 # Hito7_Desarrollo_APP
 
-//Slider categorías
+//SLIDER categorías
 
 1. Dentro de tab2.page.ts tenemos un array de categorias para crear slides 
 2. En tab2.page.html creamos el slider y dentro un bucle de cat of categories con imagenes
@@ -21,3 +21,10 @@
 ---Tab2----
 	. Variable news donde guardamos respuesta función ionViewDidLoad() que recibe info de readNews()
  	. Para lectura en tab2.page.html bucle article of news.response.articles
+
+//FUNCIONALIDAD leer noticias por categoría
+1. Nueva función en news.service.ts "readCategory(category)" recibe el nombre de la categoria y sustituye el valor en la ruta 
+2. Dentro tab2.page.ts, añadimos categoría "general" a array categories y con esta se hará la primera llamada (antes de darle a una categoría)
+3.  Modificada función "ionViewDidLoad(categories)" para recibir categoría necesaria en función "readCategory(category)" devuelve data.
+4. Dentro de tab2.page.html llamada a la función cuando se hace click en slide con valor categories igual a categoría de la slide.
+
