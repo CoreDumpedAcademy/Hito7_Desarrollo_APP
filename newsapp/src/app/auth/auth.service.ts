@@ -22,11 +22,8 @@ export class AuthService {
       tap(async (res:  AuthResponse ) => {
 
         if (res.user) {
-          //CUANDO MATIAS TENGA LO DEL TOKEN SE DESCOMENTA ESTA SECCIÓN Y SE BORRA LO DE ABAJO.
-          /*await this.storage.set("ACCESS_TOKEN", res.user.access_token);
-          await this.storage.set("EXPIRES_IN", res.user.expires_in);*/
-          await this.storage.set("ACCESS_TOKEN", 12345);//BORRAR
-          await this.storage.set("EXPIRES_IN", 9999);//BORRAR
+          await this.storage.set("ACCESS_TOKEN", res.user.token);
+          await this.storage.set("USER_EMAIL", user.email);
           this.authSubject.next(true);
         }
       })
@@ -37,11 +34,8 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}logUser`, user).pipe(
       tap(async (res: AuthResponse)=> {
         if(res.user){
-          //CUANDO MATIAS TENGA LO DEL TOKEN SE DESCOMENTA ESTA SECCIÓN Y SE BORRA LO DE ABAJO.
-          /*await this.storage.set("ACCESS_TOKEN", res.user.access_token);
-          await this.storage.set("EXPIRES_IN", res.user.expires_in);*/
-          await this.storage.set("ACCESS_TOKEN", 12345);//BORRAR
-          await this.storage.set("EXPIRES_IN", 9999);//BORRAR
+          await this.storage.set("ACCESS_TOKEN", res.user.token);
+          await this.storage.set("USER_EMAIL", user.email);
           this.authSubject.next(true);    
         }
       })
@@ -49,7 +43,8 @@ export class AuthService {
   }
   async logOut(){
     await this.storage.remove("ACCESS_TOKEN");
-    await this.storage.remove("EXPIRES_IN");
+    await this.storage.remove("USER_EMAIL");
+
   }
   isLoggedIn(){
     return this.authSubject.asObservable();
