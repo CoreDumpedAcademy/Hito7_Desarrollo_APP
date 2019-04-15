@@ -14,12 +14,13 @@ export class Tab2Page {
   
   constructor(public navCtrl: NavController, public service: NewsService){
     this.categories = [
-      {name:'DEPORTE', img:'sports.jpg' },
-      {name:'ECONOMÍA', img:'economy.jpg'},
-      {name: 'TECNOLOGÍA', img:'technology.jpg'},
-      {name: 'CIENCIA', img:'science.jpg'},
-      {name:'SALUD', img: 'health.jpg'},
-      {name: 'ENTRENAMIENTO', img:'entertainment.jpg'}
+      {name:'sports', img:'sports.jpg' },
+      {name:'business', img:'economy.jpg'},
+      {name: 'technology', img:'technology.jpg'},
+      {name: 'science', img:'science.jpg'},
+      {name:'health', img: 'health.jpg'},
+      {name: 'entertainment', img:'entertainment.jpg'},
+      {name: 'general', img:'general.jpg'}
     ]
   }
   
@@ -31,13 +32,16 @@ export class Tab2Page {
    slidesPerView: 2.3
   }
 
+  //Actualizar pagina
+
   //Funiones de la API
-  ionViewDidLoad(){
-    this.service.readNews()
+  ionViewDidLoad(categories){
+    this.service.readCategory(categories.name)
     .subscribe(
       (data) => {this.news = data;
-                console.log(data);},
+        console.log(data);},
       (error) => {console.log(error);}
     )
   }
 }
+

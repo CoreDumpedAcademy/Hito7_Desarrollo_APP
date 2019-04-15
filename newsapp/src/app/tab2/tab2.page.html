@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar class = "container">
-      <ion-title (click)= "ionViewDidLoad()"> 
+      <ion-title (click)= "ionViewDidLoad(categories[6])"> 
         CATEGORIES
       </ion-title>
     </ion-toolbar>
@@ -9,7 +9,7 @@
   <ion-content>
       <ion-slides [options]="sliderConfig">
         <ion-slide *ngFor="let cat of categories">
-          <ion-card class= "slides" (click)= "openCategory()" >
+          <ion-card class= "slides" (click)= "ionViewDidLoad(cat);" >
           
                 <img src= "../../assets/images/categories/{{ cat.img }}">
            
@@ -19,7 +19,7 @@
   
   
   <!--Noticias-->
-    <ion-card *ngFor="let article of news.response.articles">
+    <ion-card *ngFor="let article of news.articles">
       <ion-card-header>
           <ion-card-content>
               <img [src]= "article.urlToImage" style= "height: 100%;">

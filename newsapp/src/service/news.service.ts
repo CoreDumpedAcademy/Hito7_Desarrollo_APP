@@ -12,6 +12,11 @@ export class NewsService {
   }
 
   readNews(){
-    return this.http.get('http://localhost:3000/api/news');
+    return this.http.get('http://localhost:3000/api/news/everything');
+  }
+
+  //Devolver noticias por categoría
+  readCategory(category){
+    return this.http.get(`http://localhost:3000/api/news/topheadlines?category=${category}`);
   }
 }
