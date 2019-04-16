@@ -42,6 +42,14 @@ export class Tab2Page {
   }
 
   saveNew(noticia){
-    alert("Aquí habría que guardar la noticia en el usuario actual. Todavía no se puede; necesitamos activar la autentificación")
+    this.service.saveNew(noticia)
+    .subscribe(
+      (data) => {
+        console.log(data)
+      },
+      (error) =>{
+        console.log(error)
+      }
+    )
   }
 }

@@ -1,3 +1,4 @@
+import { NewsService } from './../../service/news.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,4 @@ import { Tab3Page } from './tab3.page';
   ],
   declarations: [Tab3Page]
 })
-export class Tab3PageModule {
-
-}
+export class Tab3PageModule {}

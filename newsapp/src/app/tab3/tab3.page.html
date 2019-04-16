@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title style="text-align: center">
-      @User's profile
+    <ion-title (click)="getFavNews()" style="text-align: center">
+      @{{user}}'s profile
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -22,14 +22,14 @@
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-card class="light">
+
+
+  <ion-card class="light" *ngFor="let article of news.user[0].favNews">
     <ion-card-content>
       <ion-card-title>
-          Pioliin's team welcomes you!
+        {{article.title}}
       </ion-card-title>
-      Hi! Thanks for downloading and creating an account in Pioliin! Your support means the world to us!<br>
-      Your saved news will be stored here!
-      <br><br><br>
+      {{article.content}}
     </ion-card-content>
   </ion-card>
 </ion-content>
