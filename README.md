@@ -28,3 +28,13 @@
 3.  Modificada función "ionViewDidLoad(categories)" para recibir categoría necesaria en función "readCategory(category)" devuelve data.
 4. Dentro de tab2.page.html llamada a la función cuando se hace click en slide con valor categories igual a categoría de la slide.
 
+// HOME
+1. Ciclo de articulos de api iniciadas con la función "ngOnInit()"
+2. 150px antes de llegar al final se carga función "loadMoreArticles()"
+3. Al hacer click en una noticia se abre una nueva tab con contenido articulo "goToArticle()"
+* Las noticias están limitadas a 5 por página, por cada función se carga la siguiente página 
+
+//CATEGORÍAS actualización
+1. ngOnInit() para no tener que darle a "CATEGORIES" para cargar la página
+2. En loadArticles por categoria guardamos la categoria en "savecategory"
+ para que el infinite scroll cargue noticias de la misma categoría en la que estas.
