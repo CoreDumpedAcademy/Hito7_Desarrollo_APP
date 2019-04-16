@@ -22,14 +22,34 @@
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-
-  <ion-card class="light" *ngFor="let article of news.user[0].favNews">
-    <ion-card-content>
-      <ion-card-title>
-        {{article.title}}
-      </ion-card-title>
-      {{article.content}}
-    </ion-card-content>
-  </ion-card>
+  <div *ngIf="news != undefined">
+    <ion-card class="light" *ngFor="let article of news.user[0].favNews; index as i">
+        <ion-card-header>
+            <ion-card-content>
+                <img [src]= "article.urlToImage" style= "height: 100%;">
+            </ion-card-content>
+          <ion-card-title>{{ article.title }}</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          {{ article.content }}
+        </ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-chip color="danger" (click)="deleteArt(i)">
+                <ion-icon name="close"></ion-icon>
+                <ion-label>Delete Article</ion-label>
+              </ion-chip>
+            </ion-col>
+            <ion-col>
+              <ion-chip *ngIf="news.user[0].favNews[i].url != undefined" color="tertiary" (click)="readArt(article)">
+                <ion-icon name="bookmark"></ion-icon>
+                <ion-label>Read Article</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-card>
+  </div>
 </ion-content>

@@ -19,10 +19,15 @@ export class NewsService {
   }
 
   saveNew(noticia){
+    console.log(noticia)
     return this.http.put(`${API}/favNews/${USER}`, noticia)
   }
 
   getUser(user){
     return this.http.get(`${API}/username/${user}`)
+  }
+
+  deleteArt(index){
+    return this.http.put(`${API}/favNews/${USER}/${index}`,{})
   }
 }
