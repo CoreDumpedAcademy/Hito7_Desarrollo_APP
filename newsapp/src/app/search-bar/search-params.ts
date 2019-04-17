@@ -1,5 +1,5 @@
 export interface SearchParams {
-  q:string;
-  category:string;
-  country:string;
+  q:string,
+  category:string,
+  country:string,
 }

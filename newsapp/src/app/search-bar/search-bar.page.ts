@@ -12,21 +12,39 @@ import { Observable, BehaviorSubject } from  'rxjs';
   styleUrls: ['./search-bar.page.scss'],
 })
 export class SearchBarPage implements OnInit {
-  public news:ApiResponse;
+  public news = null;
   public keyWords:string;
+  public category:string;
+  public newsCategories = [];
   constructor(  public httpClient: HttpClient) { }
-  apiUrl = 'http://127.0.0.1:3000/api/news/topHeadLines?';
-  search():Observable<ApiResponse>{
-    this.httpClient.get<ApiResponse>(`${this.apiUrl}q=${this.keyWords}&category=business`).subscribe(
-      (data) => console.log(data),
-      (err) => console.log(err)
+  apiUrl = 'http://127.0.0.1:3000/api/news/';
+  search(){
+    this.news = null;
+    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
+       (data) =>{
+         console.log(data);
+         this.news = data;
+         this.news = this.news.response;
+        },
+       (err) => console.log(err)
     );
-    return 
   }
-  consola(){
-    console.log('Esto no es lo que falla...');
-  }
+
   ngOnInit() {
+    this.category ='';
+    this.keyWords ='';
+    this.newsCategories = [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology"]
+    for(let i = 0; i < 7; i++ ){
+      console.log(this.newsCategories[i]);
+    }
+
   }
 
 }
