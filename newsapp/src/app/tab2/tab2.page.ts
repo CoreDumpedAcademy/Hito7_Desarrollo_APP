@@ -71,6 +71,7 @@ loadMoreArticles(event){
   console.log(event);
 
   this.page ++;
+  if(this.savecategory===undefined) this.savecategory = "general"
   this.service.readCategory(this.savecategory.name, this.page)
   .subscribe(
     (data) => {
