@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>PIOLIIN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+        <ion-card-content>
+            <img [src]= "article.urlToImage" style= "height: 100%;">
+         </ion-card-content>
+      <ion-card-title>{{ article.title }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+        {{ article.content }}
+    </ion-card-content>
+  </ion-card>
+</ion-content>
