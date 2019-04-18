@@ -39,7 +39,7 @@ export class Tab2Page implements OnInit {
   news
   articles
   page = 1;
-  savecategory = 'general'
+  savecategory 
  
   //Cargar primeras noticias 
   ngOnInit() {
