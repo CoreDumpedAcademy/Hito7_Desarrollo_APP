@@ -1,1 +1,20 @@
-
+.banner{
+    background-image: url(../../assets/images/default-images/defaultbanner.jpg);
+    img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        border-radius: 50%;
+    }
+    text-align: center;
+    ion-button{
+        size: small;
+        --background: #FCBA04;
+        color: #54494B;
+        font-weight :bold;
+    }
+}
+.light{
+    background-color: #FDF8E1
+}

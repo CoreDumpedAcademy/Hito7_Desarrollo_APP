@@ -30,8 +30,13 @@
       <ion-card-content>
           {{ article.description }}
       </ion-card-content>
-    </ion-card>
-  
+      <ion-grid>
+        <ion-chip color="tertiary" (click)="saveNew(this.article)">
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-label>Save Article</ion-label>
+        </ion-chip>
+      </ion-grid>  
+    </ion-card>  
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreArticles($event)">
       <ion-infinite-scroll-content
         loadingSpinner="bubbles"
