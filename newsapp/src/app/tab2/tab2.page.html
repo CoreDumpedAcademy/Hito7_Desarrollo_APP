@@ -1,9 +1,42 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-toolbar class = "container">
+      <ion-title> 
+        PIOLIIN
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <!--Slider de categorías-->
+  <ion-content>
+      <ion-slides [options]="sliderConfig">
+        <ion-slide *ngFor="let cat of categories" (click)= "loadArticles(cat)" >
+          <ion-card class= "slides" >
+          
+                <img src= "../../assets/images/categories/{{ cat.img }}">
+           
+          </ion-card>
+        </ion-slide>
+      </ion-slides> 
+  
+  
+  <!--Noticias-->
+    <ion-card *ngFor="let article of articles">
+      <ion-card-header>
+          <ion-card-content>
+              <img [src]= "article.urlToImage" style= "height: 100%;">
+           </ion-card-content>
+        <ion-card-title>{{ article.title }}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+          {{ article.description }}
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreArticles($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Pioliin">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
-<ion-content></ion-content>
+  </ion-content>

@@ -1,1 +1,27 @@
 
+ion-toolbar.container {
+    padding-top: 15px;
+    height: 70px;
+    text-align: center;
+}
+ion-slide {
+    height: 200px;
+}
+ion-card.slides {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background-color: yellow;
+    
+
+}
+ /*ion-card-title {
+    text-align: center;
+    position: contents;
+    padding: 70px 0;
+    font-size: 14px;
+}*/
+ion-card-content {
+  height: 100%;
+  width: 100%;
+}
