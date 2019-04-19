@@ -1,7 +1,6 @@
-import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 import { NewsService } from '../../service/news.service';
-
+import {AuthService } from '../auth/auth.service'
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -9,13 +8,14 @@ import { NewsService } from '../../service/news.service';
 })
 
 export class Tab3Page {
-  constructor(public service: NewsService, public storage : Storage){}
+  constructor(public service: NewsService, private authService: AuthService){}
 
-  news
-  user = this.storage.get("USER_EMAIL")// user debería ser el usuario actual
-  
-  getFavNews(){
-    console.log(this.user)
+  news;
+  user;
+  async getFavNews(){
+    if(this.authService.isLoggedIn()){
+   this.user  = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
+    console.log('User' + this.user)
     this.service.getUser(this.user)
     .subscribe(
       (data) =>{
@@ -32,6 +32,7 @@ export class Tab3Page {
         console.log(error)
       }
     )
+    }
   }
   deleteArt(index){
     this.service.deleteArt(index)

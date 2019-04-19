@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from  'rxjs';
 import { Storage } from  '@ionic/storage';
 import { User } from  './user';
 import { AuthResponse } from  './auth-response';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,8 +22,8 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}user`, user).pipe(
       tap(async (res:  AuthResponse ) => {
 
-        if (res.user) {
-          await this.storage.set("ACCESS_TOKEN", res.user.token);
+        if (res.token) {
+          await this.storage.set("ACCESS_TOKEN", res.token);
           await this.storage.set("USER_EMAIL", user.email);
           this.authSubject.next(true);
         }
@@ -31,11 +32,13 @@ export class AuthService {
     );
   }
   login(user: User): Observable<AuthResponse>{
+    let userMail = user.email;
+    console.log('Guardamos: ' + userMail);
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}logUser`, user).pipe(
       tap(async (res: AuthResponse)=> {
-        if(res.user){
-          await this.storage.set("ACCESS_TOKEN", res.user.token);
-          await this.storage.set("USER_EMAIL", user.email);
+        if(res.token){
+          await this.storage.set("ACCESS_TOKEN", res.token);
+          await this.storage.set("USER_EMAIL", userMail);
           this.authSubject.next(true);    
         }
       })
@@ -48,6 +51,13 @@ export class AuthService {
   }
   isLoggedIn(){
     return this.authSubject.asObservable();
+  }
+  async setEmail(email:string){
+    await this.storage.set("USER_MAIL", email);
+  }
+   async getEmail(){
+    let mail = await this.storage.get("USER_EMAIL");
+    return mail;
   }
 
 }
