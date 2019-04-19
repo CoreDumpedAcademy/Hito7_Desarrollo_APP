@@ -13,9 +13,6 @@ import { NewsService } from '../service/news.service';
 
 //Conexión Ionic-API
 import { HttpClientModule } from '@angular/common/http';
-
-
-import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 

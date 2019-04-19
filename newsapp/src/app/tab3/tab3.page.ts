@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 import { NewsService } from '../../service/news.service';
 
@@ -8,13 +9,13 @@ import { NewsService } from '../../service/news.service';
 })
 
 export class Tab3Page {
-  
+  constructor(public service: NewsService, public storage : Storage){}
+
   news
-  user = "Pochu" // user debería ser el usuario actual
-
-  constructor(public service: NewsService){}
-
+  user = this.storage.get("USER_EMAIL")// user debería ser el usuario actual
+  
   getFavNews(){
+    console.log(this.user)
     this.service.getUser(this.user)
     .subscribe(
       (data) =>{

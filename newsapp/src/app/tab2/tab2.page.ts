@@ -82,18 +82,18 @@ loadMoreArticles(event){
         this.articles.push(this.articles[i]);
       } event.target.complete();
   });
-
-  saveNew(noticia){
-    this.service.saveNew(noticia)
-    .subscribe(
-      (data) => {
-        console.log(data)
-      },
-      (error) =>{
-        console.log(error)
-      }
-    )
-  }
+}
+saveNew(noticia){
+  this.service.saveNew(noticia)
+  .subscribe(
+    (data) => {
+      console.log(data)
+    },
+    (error) =>{
+      console.log(error)
+    }
+  )
+}
 }
 
 

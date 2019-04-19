@@ -24,7 +24,7 @@ export class NewsService {
   readNews(page){
     return this.http.get(`http://localhost:3000/api/news/topheadlines?pageSize=5&page=${page}`);
   }
-  readNews(){
+  readeverything(){
     return this.http.get(`${API}/news/everything`);
   }
 

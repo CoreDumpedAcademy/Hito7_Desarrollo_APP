@@ -19,6 +19,7 @@
   
   
   <!--Noticias-->
+  <div *ngIf="news != undefined">
     <ion-card *ngFor="let article of articles">
       <ion-card-header>
           <ion-card-content>
@@ -43,5 +44,6 @@
         loadingText="Pioliin">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
+  </div>
 
   </ion-content>
