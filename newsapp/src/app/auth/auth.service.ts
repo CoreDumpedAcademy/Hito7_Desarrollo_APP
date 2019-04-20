@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from  '@angular/common/http';
+import { HttpClient, HttpHeaders } from  '@angular/common/http';
 import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 
 import { Storage } from  '@ionic/storage';
 import { User } from  './user';
 import { AuthResponse } from  './auth-response';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,15 +48,34 @@ export class AuthService {
     await this.storage.remove("USER_EMAIL");
 
   }
-  isLoggedIn(){
-    return this.authSubject.asObservable();
+   async isLoggedIn(){
+    const userToken = await this.storage.get("ACCESS_TOKEN");//await this.storage.get("ACCESS_TOKEN");
+    let logged = false;
+    const httOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/x-www-form-urlencoded',
+        'authorization': userToken,
+      })
+    }
+     this.httpClient.get<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}user/private`,httOptions).pipe(
+       tap(async (res: AuthResponse) =>{
+         if(res.logged != null){
+          logged = await res.logged;
+          console.log("El usuario se ha logueado?" + logged);
+         }
+
+       }
+
+    ));
+
+      return logged;
   }
   async setEmail(email:string){
     await this.storage.set("USER_MAIL", email);
   }
    async getEmail(){
     let mail = await this.storage.get("USER_EMAIL");
-    return mail;
+    return mail; 
   }
 
 }

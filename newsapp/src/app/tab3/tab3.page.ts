@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NewsService } from '../../service/news.service';
 import {AuthService } from '../auth/auth.service'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -8,12 +9,12 @@ import {AuthService } from '../auth/auth.service'
 })
 
 export class Tab3Page {
-  constructor(public service: NewsService, private authService: AuthService){}
+  constructor(public service: NewsService, private authService: AuthService, private router: Router){}
 
   news;
   user;
+  logged:boolean;
   async getFavNews(){
-    if(this.authService.isLoggedIn()){
     this.user  = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
     console.log('User ' + this.user)
     this.service.getUser(this.user)
@@ -34,10 +35,16 @@ export class Tab3Page {
         console.log(error)
       }
     )
-    }
   }
-  ngOnInit() {
-    this.getFavNews()
+
+  async ngOnInit() {
+    this.logged = await this.authService.isLoggedIn();
+    console.log("LOGGED NO VA? " + this.logged);
+    if(!this.logged){
+      this.router.navigateByUrl('login');
+
+    }
+    this.getFavNews();
   }
   deleteArt(index){
     this.service.deleteArt(index)
