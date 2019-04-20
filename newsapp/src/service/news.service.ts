@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from "../app/auth/auth.service"
 
 const API = "http://localhost:3000/api"
-const USER = "Pochu" // Este campo representa el usuario actual. Como en esta rama no está implementada la autentificación, habrá que sustituirlo por el usuario loggeado actualmente.
+var USER // Este campo representa el usuario actual.
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,17 @@ export class NewsService {
 
   currentArticle: any;
 
-  constructor(public http: HttpClient) { 
+  constructor(public http: HttpClient, public auth : AuthService) { 
     console.log('News service ok');
+    auth.getEmail().then((email) =>{
+      http.get(`${API}/email/${email}`).subscribe(
+        (data) => {
+          USER = data
+          USER = USER.user.userName
+          console.log(USER)
+        }
+      )
+    })
   }
 
   //Devolver noticias por categoría
@@ -29,12 +39,14 @@ export class NewsService {
   }
 
   saveNew(noticia){
+    console.log(USER)
     console.log(noticia)
     return this.http.put(`${API}/favNews/${USER}`, noticia)
   }
 
+  //Obtiene los datos de un usuario dado su email
   getUser(user){
-    return this.http.get(`${API}/username/${user}`)
+    return this.http.get(`${API}/email/${user}`)
   }
 
   deleteArt(index){

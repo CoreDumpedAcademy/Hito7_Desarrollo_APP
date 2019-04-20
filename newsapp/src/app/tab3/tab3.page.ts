@@ -14,14 +14,16 @@ export class Tab3Page {
   user;
   async getFavNews(){
     if(this.authService.isLoggedIn()){
-   this.user  = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
-    console.log('User' + this.user)
+    this.user  = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
+    console.log('User ' + this.user)
     this.service.getUser(this.user)
     .subscribe(
       (data) =>{
         this.news = data
-        if(this.news.user[0].favNews.length == 0){
-          this.news.user[0].favNews.push({
+        console.log(this.news)
+        this.user = this.news.user.userName
+        if(this.news.user.favNews.length == 0){
+          this.news.user.favNews.push({
             title:"Pioliin's team welcomes you!",
             content:"Thank you for downloading our app and creating an account! Your support means the world to us! Your saved news will be stored here",
             urlToImage: "../../../assets/images/default-images/fondos.png"
@@ -33,6 +35,9 @@ export class Tab3Page {
       }
     )
     }
+  }
+  ngOnInit() {
+    this.getFavNews()
   }
   deleteArt(index){
     this.service.deleteArt(index)
