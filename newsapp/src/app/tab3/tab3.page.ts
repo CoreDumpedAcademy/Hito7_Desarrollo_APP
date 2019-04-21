@@ -38,12 +38,6 @@ export class Tab3Page {
   }
 
   async ngOnInit() {
-    this.logged = await this.authService.isLoggedIn();
-    console.log("LOGGED NO VA? " + this.logged);
-    if(!this.logged){
-      this.router.navigateByUrl('login');
-
-    }
     this.getFavNews();
   }
   deleteArt(index){

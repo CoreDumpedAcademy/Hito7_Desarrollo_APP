@@ -48,6 +48,7 @@ export class AuthService {
     await this.storage.remove("USER_EMAIL");
 
   }
+  /*
    async isLoggedIn(){
     const userToken = await this.storage.get("ACCESS_TOKEN");//await this.storage.get("ACCESS_TOKEN");
     let logged = false;
@@ -70,8 +71,12 @@ export class AuthService {
 
       return logged;
   }
+  */
+  isLoggedIn(){
+    return !(this.storage.get("USER_EMAIL") == undefined)
+  }
   async setEmail(email:string){
-    await this.storage.set("USER_MAIL", email);
+    await this.storage.set("USER_eMAIL", email);
   }
    async getEmail(){
     let mail = await this.storage.get("USER_EMAIL");

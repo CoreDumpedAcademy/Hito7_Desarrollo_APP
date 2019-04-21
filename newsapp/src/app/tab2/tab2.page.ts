@@ -1,6 +1,8 @@
+import { AuthService } from './../auth/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NewsService } from '../../service/news.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -12,7 +14,7 @@ export class Tab2Page implements OnInit {
   
       categories: Array <any> = [];
      
-  constructor(public navCtrl: NavController, public service: NewsService){
+  constructor(public navCtrl: NavController, public service: NewsService, public auth : AuthService, public router: Router){
     this.categories = [
       {name:'sports', img:'sports.jpg' },
       {name:'business', img:'economy.jpg'},
@@ -43,14 +45,18 @@ export class Tab2Page implements OnInit {
  
   //Cargar primeras noticias 
   ngOnInit() {
-    this.service.readCategory(this.categories, this.page)
-    .subscribe(
-      (data) => {this.news = data;
-        this.articles = this.news.articles
-        console.log(data);},
-       
-      (error) => {console.log(error);}
-    )
+    if(!this.auth.isLoggedIn){
+      this.router.navigateByUrl('login')
+    } else {
+      this.service.readCategory(this.categories, this.page)
+      .subscribe(
+        (data) => {this.news = data;
+          this.articles = this.news.articles
+          console.log(data);},
+        
+        (error) => {console.log(error);}
+      )
+      }
   }
   
   //Cargar por categoria
