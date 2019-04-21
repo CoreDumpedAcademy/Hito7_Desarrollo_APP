@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NewsService } from '../../service/news.service';
+import {AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-tab2',
@@ -12,7 +13,7 @@ export class Tab2Page implements OnInit {
   
       categories: Array <any> = [];
      
-  constructor(public navCtrl: NavController, public service: NewsService){
+  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService){
     this.categories = [
       {name:'sports', img:'sports.jpg' },
       {name:'business', img:'economy.jpg'},
@@ -35,7 +36,7 @@ export class Tab2Page implements OnInit {
 
   //Actualizar pagina
   
-  //Funiones de la API
+  //Funciones de la API
   news
   articles
   page = 1;
@@ -54,7 +55,11 @@ export class Tab2Page implements OnInit {
   }
   
   //Cargar por categoria
-  loadArticles(category){
+  async loadArticles(category){
+    if(this.authService.isLoggedIn()){
+      let mail = await this.authService.getEmail();
+      await this.service.addCategoryView(category, mail);
+    }
     this.page++;
     this.service.readCategory(category.name, this.page)
     .subscribe(
