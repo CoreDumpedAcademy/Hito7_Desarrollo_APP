@@ -7,6 +7,7 @@ import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { NewsService } from '../../service/news.service';
+import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,10 +45,16 @@ export class Tab2Page implements OnInit {
     centeredSlides: true,
     slidesPerView: 2.3
   }
+
   openCategory(cat) {
     this.category = cat.name;
     console.log(this.category)
-    this.loadArticles(this.category)
+    if(this.keyWords=="" && this.keyWords!=undefined){
+      this.loadArticles(this.category)
+    } else {
+      this.search()
+    } 
+      
   }
 
   //Funiones de la API

@@ -7,9 +7,9 @@ const routes: Routes = [
   { path: 'article', loadChildren: './article/article.module#ArticlePageModule' },
   { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },
   { path: 'login', loadChildren: './auth/login/login.module#LoginPageModule' },
+  { path: 'modal-filters', loadChildren: './modal-filters/modal-filters.module#ModalFiltersPageModule' },
   { path: 'edit-user', loadChildren: './edit-user/edit-user.module#EditUserPageModule' },
   { path: 'success', loadChildren: './success/success.module#SuccessPageModule' }
-
 ];
 
 @NgModule({

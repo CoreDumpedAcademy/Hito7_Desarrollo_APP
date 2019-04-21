@@ -1,0 +1,48 @@
+<script>
+  var moment = require('moment');
+</script>
+<ion-header>
+  <ion-toolbar text-center>
+    <ion-title>Filtrar noticias</ion-title>
+    <ion-chip (click)="closeModal()" slot="end">
+      <ion-icon color="dark" name="close-circle-outline" style="margin-right:10px"></ion-icon>
+    </ion-chip>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Language</ion-label>
+    <ion-select [(ngModel)]="lang" class="selectedSetting" okText="Guardar" value="en" cancelText="Cancelar">
+      <ion-select-option value="ar">العربية</ion-select-option>
+      <ion-select-option value="de">Deutsch</ion-select-option>
+      <ion-select-option value="en">English</ion-select-option>
+      <ion-select-option value="es">Español</ion-select-option>
+      <ion-select-option value="fr">Français</ion-select-option>
+      <ion-select-option value="he">עברית</ion-select-option>
+      <ion-select-option value="it">Italiano</ion-select-option>
+      <ion-select-option value="nl">Nederlands</ion-select-option>
+      <ion-select-option value="no">Norsk</ion-select-option>
+      <ion-select-option value="pt">Português</ion-select-option>
+      <ion-select-option value="ru">русский</ion-select-option>
+      <ion-select-option value="se">Davvisámegiella</ion-select-option>
+      <ion-select-option vaue="zh">中文</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Sort by</ion-label>
+    <ion-select [(ngModel)]="sortBy" class="selectedSetting" okText="Guardar" value="relevancy" cancelText="Cancelar">
+      <ion-select-option value="relevancy">Relevancy</ion-select-option>
+      <ion-select-option value="popularity">Popularity</ion-select-option>
+      <ion-select-option value="publishedAt">Newest</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>From</ion-label>
+    <ion-datetime [(ngModel)]="fromDate" min="{{minDate}}" max="{{untilDate}}" display-format="DD/MM/YYYY" value=""></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Until</ion-label>
+    <ion-datetime [(ngModel)]="untilDate" min="{{fromDate}}" max="{{maxDate}}" display-format="DD/MM/YYYY" value=""></ion-datetime>
+  </ion-item>
+</ion-content>
