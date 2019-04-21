@@ -1,5 +1,9 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="buttonText" [icon]="buttonIcon">
+      </ion-back-button>
+    </ion-buttons>
     <ion-title>PIOLIIN</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,14 +11,30 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-        <ion-card-content>
-            <img [src]= "article.urlToImage" style= "height: 100%;">
-         </ion-card-content>
+      <ion-card-content>
+        <img [src]="article.urlToImage" style="height: 100%;">
+      </ion-card-content>
       <ion-card-title>{{ article.title }}</ion-card-title>
+      <ion-chip color="dark">
+        <ion-icon name="time"></ion-icon>
+        <ion-label> {{fecha(article.publishedAt)}}</ion-label>
+      </ion-chip>
+      <ion-chip color="dark" *ngIf="article.author">
+        <ion-icon name="person"></ion-icon>
+        <ion-label> {{article.author}}</ion-label>
+      </ion-chip>
     </ion-card-header>
-  
+
     <ion-card-content>
-        {{ article.content }}
+      {{ article.content }}
     </ion-card-content>
+    <ion-toolbar>
+        <ion-title>
+          <ion-chip color="tertiary" (click)="readArt(article)">
+            <ion-icon name="bookmark"></ion-icon>
+            <ion-label>Read full article</ion-label>
+          </ion-chip>
+        </ion-title>
+      </ion-toolbar>
   </ion-card>
 </ion-content>

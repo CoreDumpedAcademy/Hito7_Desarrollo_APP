@@ -78,6 +78,12 @@ export class Tab2Page implements OnInit {
     );
   }
 
+  //Mostrar noticia en otra tab 
+  goToArticle(article) {
+    this.service.currentArticle = article;
+    this.router.navigate(['/article']);
+  }
+
   //Funiones de la API
   articles
   page = 1;
