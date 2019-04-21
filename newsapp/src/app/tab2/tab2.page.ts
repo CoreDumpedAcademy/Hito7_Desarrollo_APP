@@ -17,14 +17,13 @@ import { Router } from '@angular/router';
 export class Tab2Page implements OnInit {
 
   categories: Array<any> = [];
-  categories: Array<any> = [];
   public category: string = '';
   public keyWords: string = '';
   private apiUrl = 'http://127.0.0.1:3000/api/news/';
   public news = null;
   public searchedNews: boolean = false;
 
-  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient) {
+  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient,public auth: AuthService, public router: Router) {
     this.categories = [
       { name: 'sports', img: 'sports.jpg' },
       { name: 'business', img: 'economy.jpg' },
