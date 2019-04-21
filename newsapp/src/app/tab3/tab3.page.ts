@@ -35,8 +35,12 @@ export class Tab3Page {
     )
   }
 
-  loadSettings(){
+  loadEditUser(){
     this.router.navigateByUrl('edit-user')
+  }
+
+  loadSettings(){
+    this.router.navigateByUrl('settings')
   }
 
   async ngOnInit() {
