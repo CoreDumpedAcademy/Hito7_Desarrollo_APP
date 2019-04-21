@@ -1,38 +1,41 @@
 <ion-header>
-  <ion-toolbar class = "container">
-    <ion-title> 
+  <ion-toolbar class="container">
+    <ion-title>
       CATEGORIES
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <!--Slider de categorías-->
 <ion-content>
-    <ion-searchbar animated clearIcon [(ngModel)]="keyWords"></ion-searchbar>
-    <ion-slides [options]="sliderConfig">
-      <ion-slide *ngFor="let cat of categories">
-        <ion-card class= "slides" (click)= "openCategory(cat)" >
-        
-              <img src= "../../assets/images/categories/{{ cat.img }}">
-         
-        </ion-card>
-      </ion-slide>
-    </ion-slides> 
-    <ion-button (click)="search()">BUSCA</ion-button>
+  <ion-searchbar animated clearIcon [(ngModel)]="keyWords" (ionChange)="search()"></ion-searchbar>
+  <ion-slides [options]="sliderConfig">
+    <ion-slide *ngFor="let cat of categories">
+      <ion-card class="slides" (click)="openCategory(cat)">
 
-   <!--Noticias-->
-   <div *ngIf="searchedNews; else elseblock">
+        <img src="../../assets/images/categories/{{ cat.img }}">
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <!--Noticias-->
+  <div *ngIf="gotnews">
+    <div *ngIf="searchedNews; else elseblock">
       <ion-card *ngFor="let article of news.articles">
         <ion-card-header>
-           <ion-card-content>
-                <img [src]= "article.urlToImage" style= "height: 100%;">
-             </ion-card-content>
+          <ion-card-content>
+            <img [src]="article.urlToImage" style="height: 100%;">
+          </ion-card-content>
           <ion-card-title>{{ article.title }}</ion-card-title>
-       </ion-card-header>
-    
-       <ion-card-content>
-           {{ article.description }}
+        </ion-card-header>
+
+        <ion-card-content>
+          {{ article.description }}
         </ion-card-content>
-    </ion-card>
+      </ion-card>
+    </div>
   </div>
-  <ng-template #elseblock><h1></h1></ng-template>
+  <ng-template #elseblock>
+    <h1></h1>
+  </ng-template>
 </ion-content>

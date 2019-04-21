@@ -1,9 +1,8 @@
 import { NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiResponse } from '../search-bar/api-response';
+import { ApiResponse } from './api-response';
 import { HttpParams } from '@angular/common/http';
-import { SearchParams } from '../search-bar/search-params'
 import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 @Component({
@@ -30,6 +29,8 @@ export class Tab2Page {
       {name: 'entertaiment', img:'entertainment.jpg'}
     ]
   }
+
+  gotnews = false
   
   sliderConfig = {
    loop: true,
@@ -43,13 +44,16 @@ export class Tab2Page {
   }
   //Funiones de la API
   search(){
+    this.gotnews = false
     this.news = null;
     this.searchedNews = true;
+    if(this.category===undefined) this.category = 'general'
     this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
        (data) =>{
          console.log(data);
          this.news = data;
          this.news = this.news.response;
+         this.gotnews = true
         },
        (err) => console.log(err)
     );
