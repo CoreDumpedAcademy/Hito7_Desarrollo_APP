@@ -17,6 +17,16 @@
       </ion-card>
     </ion-slide>
   </ion-slides>
+  <ion-toolbar>
+
+    <ion-title>
+      <ion-chip style="text-align: center;margin-top:5px;position: relative" color="tertiary">
+        <ion-icon name="albums"></ion-icon>
+        <ion-label>{{category}}</ion-label>
+      </ion-chip>
+    </ion-title>
+  </ion-toolbar>
+
 
   <!--Noticias-->
 
@@ -33,13 +43,13 @@
         <ion-card-content>
           {{ article.description }}
         </ion-card-content>
-      <ion-grid>
-        <ion-chip color="tertiary" (click)="saveNew(this.article)">
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-label>Save Article</ion-label>
-        </ion-chip>
-      </ion-grid>  
-    </ion-card>  
+        <ion-grid>
+          <ion-chip color="tertiary" (click)="saveNew(this.article)">
+            <ion-icon name="star-outline"></ion-icon>
+            <ion-label>Save Article</ion-label>
+          </ion-chip>
+        </ion-grid>
+      </ion-card>
 
 
 

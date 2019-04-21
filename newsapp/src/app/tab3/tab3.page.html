@@ -13,8 +13,11 @@
     <br><br><br><br><br>
   </div>
   <ion-toolbar>
-      <ion-title style="text-align: center">
-        FEED
+      <ion-title >
+        <ion-chip style="text-align: center;margin-top:20px;" color="tertiary">
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-label>Saved news</ion-label>
+        </ion-chip>
       </ion-title>
   </ion-toolbar>
   <ion-fab vertical="top" horizontal="start" (click)="loadSettings()">

@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class Tab2Page implements OnInit {
 
   categories: Array<any> = [];
-  public category: string = '';
+  public category: string = 'general';
   public keyWords: string = '';
   private apiUrl = 'http://127.0.0.1:3000/api/news/';
   public news = null;
