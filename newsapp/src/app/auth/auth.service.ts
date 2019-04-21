@@ -72,8 +72,12 @@ export class AuthService {
       return logged;
   }
   */
-  isLoggedIn(){
-    return !(this.storage.get("USER_EMAIL") == undefined)
+  async isLoggedIn(){
+    var resul:Boolean
+    await this.storage.get("USER_EMAIL").then((data) => {
+      resul = data == null
+    })
+    return !resul
   }
   async setEmail(email:string){
     await this.storage.set("USER_eMAIL", email);

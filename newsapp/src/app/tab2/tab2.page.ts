@@ -44,8 +44,10 @@ export class Tab2Page implements OnInit {
   savecategory 
  
   //Cargar primeras noticias 
-  ngOnInit() {
-    if(!this.auth.isLoggedIn){
+  async ngOnInit() {
+    var bool = await this.auth.isLoggedIn()
+    console.log(bool)
+    if(!bool){
       this.router.navigateByUrl('login')
     } else {
       this.service.readCategory(this.categories, this.page)

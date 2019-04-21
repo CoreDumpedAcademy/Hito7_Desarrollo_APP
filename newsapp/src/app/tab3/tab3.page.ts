@@ -37,6 +37,10 @@ export class Tab3Page {
     )
   }
 
+  loadSettings(){
+    this.authService.logOut()
+  }
+
   async ngOnInit() {
     this.getFavNews();
   }
