@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from "../app/auth/auth.service"
 import { tap } from  'rxjs/operators';
-
 const API = "http://localhost:3000/api"
 var USER // Este campo representa el usuario actual.
 
@@ -55,10 +54,17 @@ export class NewsService {
   }
 
   addCategoryView(cat:string, mail:string){
-    this.http.post(`${API}/user/addCategory`,{email:mail, category: cat}).pipe(
-      tap(async res =>{
-          console.log(res);
-      })
-    )
+    console.log('Service: ' + mail + ':' + cat);
+    this.http.post(`${API}/user/addCategory/`,{"email":mail, "category":cat}).subscribe(
+      (val) => {
+          console.log("POST call successful value returned in body", 
+                      val);
+      },
+      response => {
+          console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+});;
   }
 }

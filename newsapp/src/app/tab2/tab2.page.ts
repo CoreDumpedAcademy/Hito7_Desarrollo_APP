@@ -44,7 +44,8 @@ export class Tab2Page implements OnInit {
  
   //Cargar primeras noticias 
   ngOnInit() {
-    this.service.readCategory(this.categories, this.page)
+    this.categories.forEach(async cat =>{
+    await this.service.readCategory(cat.name, this.page)
     .subscribe(
       (data) => {this.news = data;
         this.articles = this.news.articles
@@ -52,13 +53,15 @@ export class Tab2Page implements OnInit {
        
       (error) => {console.log(error);}
     )
-  }
+  });
+}
   
   //Cargar por categoria
   async loadArticles(category){
-    if(this.authService.isLoggedIn()){
-      let mail = await this.authService.getEmail();
-      await this.service.addCategoryView(category, mail);
+    if( this.authService.isLoggedIn()){
+      let mail =  await this.authService.getEmail();
+      console.log("Mandamos: " + mail + ':'+ category.name);
+      this.service.addCategoryView(category.name, mail);
     }
     this.page++;
     this.service.readCategory(category.name, this.page)

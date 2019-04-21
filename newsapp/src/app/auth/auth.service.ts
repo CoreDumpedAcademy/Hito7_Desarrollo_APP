@@ -48,6 +48,7 @@ export class AuthService {
     await this.storage.remove("USER_EMAIL");
 
   }
+  /*
    async isLoggedIn(){
     const userToken = await this.storage.get("ACCESS_TOKEN");//await this.storage.get("ACCESS_TOKEN");
     let logged = false;
@@ -63,13 +64,18 @@ export class AuthService {
           logged = await res.logged;
           console.log("El usuario se ha logueado?" + logged);
          }
-
        }
-
     ));
-
       return logged;
   }
+  */
+ async isLoggedIn(){
+  var resul:Boolean
+  await this.storage.get("USER_EMAIL").then((data) => {
+    resul = data == null
+  })
+  return !resul
+}
   async setEmail(email:string){
     await this.storage.set("USER_MAIL", email);
   }
