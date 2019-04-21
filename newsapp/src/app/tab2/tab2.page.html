@@ -1,35 +1,74 @@
 <ion-header>
-  <ion-toolbar class = "container">
-    <ion-title> 
-      CATEGORIES
+  <ion-toolbar class="container">
+    <ion-title>
+      PIOLIIN
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <!--Slider de categorías-->
 <ion-content>
-    <ion-slides [options]="sliderConfig">
-      <ion-slide *ngFor="let cat of categories">
-        <ion-card class= "slides" (click)= "openCategory()" >
-        
-              <img src= "../../assets/images/categories/{{ cat.img }}">
-         
-        </ion-card>
-      </ion-slide>
-    </ion-slides> 
+  <ion-searchbar animated clearIcon [(ngModel)]="keyWords" (ionChange)="search()"></ion-searchbar>
+  <ion-slides [options]="sliderConfig">
+    <ion-slide *ngFor="let cat of categories">
+      <ion-card class="slides" (click)="openCategory(cat)">
+
+        <img src="../../assets/images/categories/{{ cat.img }}">
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-toolbar>
+
+    <ion-title>
+      <ion-chip style="text-align: center;margin-top:5px;position: relative" color="tertiary">
+        <ion-icon name="albums"></ion-icon>
+        <ion-label>{{category}}</ion-label>
+      </ion-chip>
+    </ion-title>
+  </ion-toolbar>
 
 
-<!--Noticias-->
-  <ion-card>
-    <ion-card-header>
+  <!--Noticias-->
+
+  <div *ngIf="gotnews">
+    <div *ngIf="searchedNews; else elseblock">
+      <ion-card *ngFor="let article of news.articles" (click)="goToArticle(article)">
+        <ion-card-header>
+          <ion-card-content>
+            <img [src]="article.urlToImage" style="height: 100%;">
+          </ion-card-content>
+          <ion-card-title>{{ article.title }}</ion-card-title>
+          <ion-chip color="dark">
+            <ion-icon name="time"></ion-icon>
+            <ion-label> {{fecha(article.publishedAt)}}</ion-label>
+          </ion-chip>
+          <ion-chip color="dark" *ngIf="article.author">
+            <ion-icon name="person"></ion-icon>
+            <ion-label> {{article.author}}</ion-label>
+          </ion-chip>
+        </ion-card-header>
+
         <ion-card-content>
-            <img src= "../../assets/images/categories/image.jpg" style= "height: 100%;">
-         </ion-card-content>
-      <ion-card-title>Titular</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Keep close to Nature's heart... and break clear away, once in awhile,
-      and climb a mountain or spend a week in the woods. Wash your spirit clean.
-    </ion-card-content>
-  </ion-card>
+          {{ article.description }}
+        </ion-card-content>
+        <ion-grid>
+          <ion-chip color="tertiary" (click)="saveNew(this.article)">
+            <ion-icon name="star-outline"></ion-icon>
+            <ion-label>Save Article</ion-label>
+          </ion-chip>
+        </ion-grid>
+      </ion-card>
+
+
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreArticles($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Pioliin">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </div>
+  </div>
+  <ng-template #elseblock>
+    <h1></h1>
+  </ng-template>
 </ion-content>
