@@ -9,6 +9,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { NewsService } from '../../service/news.service';
 import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 import { Router } from '@angular/router';
+var moment = require('moment');
 
 @Component({
   selector: 'app-tab2',
@@ -24,7 +25,7 @@ export class Tab2Page implements OnInit {
   public news = null;
   public searchedNews: boolean = false;
 
-  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient,public auth: AuthService, public router: Router) {
+  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient, public auth: AuthService, public router: Router) {
     this.categories = [
       { name: 'sports', img: 'sports.jpg' },
       { name: 'business', img: 'economy.jpg' },
@@ -49,12 +50,15 @@ export class Tab2Page implements OnInit {
   openCategory(cat) {
     this.category = cat.name;
     console.log(this.category)
-    if(this.keyWords=="" && this.keyWords!=undefined){
+    if (this.keyWords == "" && this.keyWords != undefined) {
       this.loadArticles(this.category)
     } else {
       this.search()
-    } 
-      
+    }
+  }
+
+  fecha(fechaISO) {
+    return moment(fechaISO).format('DD/MM/YYYY')
   }
 
   //Funiones de la API

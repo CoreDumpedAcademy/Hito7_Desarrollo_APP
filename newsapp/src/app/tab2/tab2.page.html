@@ -38,6 +38,14 @@
             <img [src]="article.urlToImage" style="height: 100%;">
           </ion-card-content>
           <ion-card-title>{{ article.title }}</ion-card-title>
+          <ion-chip color="dark">
+            <ion-icon name="time"></ion-icon>
+            <ion-label> {{fecha(article.publishedAt)}}</ion-label>
+          </ion-chip>
+          <ion-chip color="dark" *ngIf="article.author">
+            <ion-icon name="person"></ion-icon>
+            <ion-label> {{article.author}}</ion-label>
+          </ion-chip>
         </ion-card-header>
 
         <ion-card-content>
