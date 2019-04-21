@@ -73,5 +73,13 @@ export class SettingsPage implements OnInit {
       })
   }
 
+  async onNightMode(){
+    const toast = await this.toastController.create({
+      message: 'Night mode not implemented yet :(',
+      duration: 2000
+    });
+    toast.present();
+  }
+
 
 }
