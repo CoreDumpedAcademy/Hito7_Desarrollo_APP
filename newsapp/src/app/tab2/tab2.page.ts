@@ -21,7 +21,7 @@ export class Tab2Page implements OnInit {
     public news = null;
     public searchedNews: boolean = false;
   
-  constructor(public navCtrl: NavController, public service: NewsService){
+  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient){
     this.categories = [
       {name:'sports', img:'sports.jpg' },
       {name: 'business', img:'economy.jpg'},
@@ -44,7 +44,10 @@ export class Tab2Page implements OnInit {
   }
   openCategory(cat){
     this.category = cat.name; 
+    console.log(this.category)
+    this.loadArticles(this.category)
   }
+
   //Funiones de la API
   search(){
     this.gotnews = false
@@ -61,19 +64,15 @@ export class Tab2Page implements OnInit {
        (err) => console.log(err)
     );
   }
-}
 
-
-  //Actualizar pagina
-  
   //Funiones de la API
-  news
   articles
   page = 1;
   savecategory 
  
   //Cargar primeras noticias 
   ngOnInit() {
+    this.loadArticles('general')
     this.service.readCategory(this.categories, this.page)
     .subscribe(
       (data) => {this.news = data;
@@ -86,15 +85,21 @@ export class Tab2Page implements OnInit {
   
   //Cargar por categoria
   loadArticles(category){
-    this.page++;
-    this.service.readCategory(category.name, this.page)
+    this.page=1;
+    console.log(category)
+    this.service.readCategory(category, this.page)
     .subscribe(
-      (data) => {this.news = data;
+      (data) => {
+        this.news = data
+        this.searchedNews = true;
         this.articles = this.news.articles
-        console.log(data);},
+        this.gotnews=true
+        console.log(data)
+      },
        
       (error) => {console.log(error);}
-    );this.savecategory = category;
+    );
+    this.savecategory = category;
   }
 
   //Cargar más noticia Infinite Scroll
@@ -102,10 +107,11 @@ export class Tab2Page implements OnInit {
     console.log(event);
     this.page ++;
     if(this.savecategory===undefined) this.savecategory = "general"
-    this.service.readCategory(this.savecategory.name, this.page).subscribe((data) => 
+    this.service.readCategory(this.savecategory, this.page).subscribe((data) => 
     {
         console.log(data);
         this.news = data;
+        this.gotnews=true;
         this.articles = this.news.articles
         for(let i = 0; i < 5; i++){
           this.articles.push(this.articles[i]);
@@ -113,5 +119,5 @@ export class Tab2Page implements OnInit {
         event.target.complete();
     });
   }
-}
 
+}
