@@ -16,12 +16,10 @@ export class Tab3Page {
   logged:boolean;
   async getFavNews(){
     this.user  = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
-    console.log('User ' + this.user)
     this.service.getUser(this.user)
     .subscribe(
       (data) =>{
         this.news = data
-        console.log(this.news)
         this.user = this.news.user.userName
         if(this.news.user.favNews.length == 0){
           this.news.user.favNews.push({
@@ -38,7 +36,7 @@ export class Tab3Page {
   }
 
   loadSettings(){
-    this.authService.logOut()
+    this.router.navigateByUrl('edit-user')
   }
 
   async ngOnInit() {

@@ -46,19 +46,18 @@ export class Tab2Page implements OnInit {
   //Cargar primeras noticias 
   async ngOnInit() {
     var bool = await this.auth.isLoggedIn()
-    console.log(bool)
     if(!bool){
       this.router.navigateByUrl('login')
-    } else {
-      this.service.readCategory(this.categories, this.page)
-      .subscribe(
-        (data) => {this.news = data;
-          this.articles = this.news.articles
-          console.log(data);},
-        
-        (error) => {console.log(error);}
-      )
-      }
+    }
+    this.service.readCategory(this.categories, this.page)
+    .subscribe(
+      (data) => {this.news = data;
+        this.articles = this.news.articles
+        console.log(data);},
+      
+      (error) => {console.log(error);}
+    )
+    
   }
   
   //Cargar por categoria

@@ -52,4 +52,22 @@ export class NewsService {
   deleteArt(index){
     return this.http.put(`${API}/favNews/${USER}/${index}`,{})
   }
+
+  updateUser(updated, email){
+    console.log(updated)
+    return this.http.put(`${API}/userid/${email}`,{
+      userName: updated.userName,
+      firstName: updated.firstName,
+      password: updated.password,
+      lastName: updated.lastName,
+      email: updated.email
+    })
+  }
+
+  checkPassword(email, password){
+    return this.http.post(`${API}/checkpwd`,{
+      email: email,
+      password: password
+    })
+  }
 }
