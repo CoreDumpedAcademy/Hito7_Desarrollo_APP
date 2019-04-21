@@ -6,6 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 import { NewsService } from '../../service/news.service';
+import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 
 @Component({
   selector: 'app-tab2',
@@ -42,10 +43,19 @@ export class Tab2Page implements OnInit {
    centeredSlides: true,
    slidesPerView: 2.3
   }
+
+
   openCategory(cat){
     this.category = cat.name; 
     console.log(this.category)
-    this.loadArticles(this.category)
+    if(this.keyWords=="" && this.keyWords!=undefined){
+      this.loadArticles(this.category)
+      console.log("noootsearch")
+    } else {
+      this.search()
+      console.log("searchh")
+    } 
+      
   }
 
   //Funiones de la API
@@ -53,6 +63,7 @@ export class Tab2Page implements OnInit {
     this.gotnews = false
     this.news = null;
     this.searchedNews = true;
+    console.log("cat: "+this.category)
     if(this.category===undefined) this.category = 'general'
     this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
        (data) =>{

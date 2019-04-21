@@ -1,30 +1,34 @@
 <ion-header>
-  <ion-toolbar class = "container" >
-    <ion-title> 
+  <ion-toolbar class="container">
+    <ion-title>
       PIOLIIN
     </ion-title>
+    <ion-chip (click)="openModal()" slot="end">
+      <ion-icon color="dark" name="options" style="margin-right:10px"></ion-icon>
+    </ion-chip>
   </ion-toolbar>
 </ion-header>
 
 <!--Noticias-->
-<ion-content>
-  <ion-card *ngFor="let article of articles" (click) = "goToArticle(article)">
+<ion-content >
+  <ion-card *ngFor="let article of articles" (click)="goToArticle(article)">
     <ion-card-header>
-        <ion-card-content>
-            <img [src]= "article.urlToImage" style= "height: 100%;">
-         </ion-card-content>
+      <ion-card-content>
+        <img [src]="article.urlToImage" style="height: 100%;">
+      </ion-card-content>
       <ion-card-title>{{ article.title }}</ion-card-title>
+      <ion-chip color="dark"><ion-icon name="time"></ion-icon> <ion-label> {{fecha(article.publishedAt)}}</ion-label></ion-chip>
+      <ion-chip color="dark" *ngIf="article.author"><ion-icon name="person"></ion-icon> <ion-label> {{article.author}}</ion-label></ion-chip>
     </ion-card-header>
-  
+   
+
     <ion-card-content>
-        {{ article.description }}
+      {{ article.description }}
     </ion-card-content>
   </ion-card>
 
-  <ion-infinite-scroll threshold="150px" (ionInfinite) = "loadArticles($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Pioliin">
+  <ion-infinite-scroll threshold="150px" (ionInfinite)="loadArticles($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Pioliin">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
