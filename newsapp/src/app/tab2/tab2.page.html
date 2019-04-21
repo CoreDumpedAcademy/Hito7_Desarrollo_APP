@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="container">
     <ion-title>
-      CATEGORIES
+      PIOLIIN
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -33,6 +33,12 @@
           {{ article.description }}
         </ion-card-content>
       </ion-card>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreArticles($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Pioliin">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
     </div>
   </div>
   <ng-template #elseblock>

@@ -1,4 +1,4 @@
-//Header con título
+
 ion-toolbar.container {
     padding-top: 15px;
     height: 70px;
@@ -8,22 +8,16 @@ ion-slide {
     height: 200px;
 }
 ion-card.slides {
-    position: absolute;
+    position: relative;
     margin: 0px;
     padding: 0px;
     background-color: yellow;
-    
-
-}
-ion-toolbar{
-
 }
 ion-card-content {
   height: 100%;
   width: 100%;
 }
-ion-button{
-  }
+
 
 
 
