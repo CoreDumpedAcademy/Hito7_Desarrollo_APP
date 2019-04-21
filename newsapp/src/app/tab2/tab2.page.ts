@@ -47,15 +47,16 @@ export class Tab2Page implements OnInit {
   openCategory(cat){
     this.category = cat.name; 
     console.log(this.category)
-    this.loadArticles(this.category)
+    this.loadArticles(cat)
   }
 
   //Funiones de la API
-  search(){
+ async search(){
     this.gotnews = false
     this.news = null;
     this.searchedNews = true;
-    if(this.category===undefined) this.category = 'general'
+    if(this.category==='') this.category = 'general'
+    this.keyWords.toLocaleLowerCase();
     this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
        (data) =>{
          console.log(data);
@@ -65,6 +66,14 @@ export class Tab2Page implements OnInit {
         },
        (err) => console.log(err)
     );
+    let splittedKeyword = this.keyWords.split(' ');
+    if(this.authService.isLoggedIn()){
+      let mail = await this.authService.getEmail();
+      splittedKeyword.forEach((element) => {
+        this.service.addKeyWordView(element, mail)
+  
+      });
+    }
   }
 
   //Cargar primeras noticias 
@@ -132,4 +141,3 @@ saveNew(noticia){
 }
 
 
-}

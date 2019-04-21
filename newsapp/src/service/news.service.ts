@@ -57,14 +57,28 @@ export class NewsService {
     console.log('Service: ' + mail + ':' + cat);
     this.http.post(`${API}/user/addCategory/`,{"email":mail, "category":cat}).subscribe(
       (val) => {
-          console.log("POST call successful value returned in body", 
-                      val);
+          console.log("POST call successful value returned in body", val);
       },
       response => {
           console.log("POST call in error", response);
       },
       () => {
           console.log("The POST observable is now completed.");
-});;
+      },
+    );
+  }
+  addKeyWordView(kw:string, mail:string){
+    console.log('Service: ' + mail + ':' + kw);
+    this.http.post(`${API}/user/addKeyWord/`,{"email":mail, "q":kw}).subscribe(
+      (val) => {
+          console.log("POST call successful value returned in body", val);
+      },
+      response => {
+          console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+      },
+    );
   }
 }
