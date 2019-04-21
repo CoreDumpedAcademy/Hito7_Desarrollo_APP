@@ -6,6 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 import { NewsService } from '../../service/news.service';
+import {AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-tab2',
@@ -13,15 +14,16 @@ import { NewsService } from '../../service/news.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  
-    categories: Array <any> = [];
-    public category:string = '';
-    public keyWords:string = '';
-    private apiUrl = 'http://127.0.0.1:3000/api/news/';
-    public news = null;
-    public searchedNews: boolean = false;
-  
-  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient){
+      category: string
+      categories: Array <any> = [];
+      searchedNews:boolean;
+      public keyWords:string = '';
+      private apiUrl = 'http://127.0.0.1:3000/api/news/';
+      news;
+      articles;
+      page = 1;
+      savecategory;
+  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient:HttpClient){
     this.categories = [
       {name:'sports', img:'sports.jpg' },
       {name: 'business', img:'economy.jpg'},
@@ -65,15 +67,11 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  //Funiones de la API
-  articles
-  page = 1;
-  savecategory 
- 
   //Cargar primeras noticias 
   ngOnInit() {
-    this.loadArticles('general')
-    this.service.readCategory(this.categories, this.page)
+    this.searchedNews =false;
+    this.categories.forEach(async cat =>{
+    await this.service.readCategory(cat.name, this.page)
     .subscribe(
       (data) => {this.news = data;
         this.articles = this.news.articles
@@ -81,43 +79,57 @@ export class Tab2Page implements OnInit {
        
       (error) => {console.log(error);}
     )
-  }
+  });
+}
   
   //Cargar por categoria
-  loadArticles(category){
-    this.page=1;
-    console.log(category)
-    this.service.readCategory(category, this.page)
+  async loadArticles(category){
+    if( this.authService.isLoggedIn()){
+      let mail =  await this.authService.getEmail();
+      console.log("Mandamos: " + mail + ':'+ category.name);
+      this.service.addCategoryView(category.name, mail);
+    }
+    this.page++;
+    this.service.readCategory(category.name, this.page)
     .subscribe(
-      (data) => {
-        this.news = data
-        this.searchedNews = true;
+      (data) => {this.news = data;
         this.articles = this.news.articles
-        this.gotnews=true
-        console.log(data)
-      },
-       
+        console.log(data);
+      }, 
       (error) => {console.log(error);}
     );
     this.savecategory = category;
   }
 
-  //Cargar más noticia Infinite Scroll
-  loadMoreArticles(event){
-    console.log(event);
-    this.page ++;
-    if(this.savecategory===undefined) this.savecategory = "general"
-    this.service.readCategory(this.savecategory, this.page).subscribe((data) => 
-    {
-        console.log(data);
-        this.news = data;
-        this.gotnews=true;
-        this.articles = this.news.articles
-        for(let i = 0; i < 5; i++){
-          this.articles.push(this.articles[i]);
-        } 
-        event.target.complete();
-    });
-  }
+//Cargar más noticia Infinite Scroll
+loadMoreArticles(event){
+  console.log(event);
+
+  this.page ++;
+  if(this.savecategory===undefined) this.savecategory = "general"
+  this.service.readCategory(this.savecategory.name, this.page)
+  .subscribe(
+    (data) => {
+      console.log(data);
+      this.news = data;
+      this.articles = this.news.articles
+      for(let i = 0; i < 5; i++){
+        this.articles.push(this.articles[i]);
+      } event.target.complete();
+  });
+}
+saveNew(noticia){
+  this.service.saveNew(noticia)
+  .subscribe(
+    (data) => {
+      console.log(data)
+    },
+    (error) =>{
+      console.log(error)
+    }
+  )
+}
+}
+
 
 }

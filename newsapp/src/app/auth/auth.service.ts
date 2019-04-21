@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from  '@angular/common/http';
+import { HttpClient, HttpHeaders } from  '@angular/common/http';
 import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 
@@ -21,8 +21,8 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}user`, user).pipe(
       tap(async (res:  AuthResponse ) => {
 
-        if (res.user) {
-          await this.storage.set("ACCESS_TOKEN", res.user.token);
+        if (res.token) {
+          await this.storage.set("ACCESS_TOKEN", res.token);
           await this.storage.set("USER_EMAIL", user.email);
           this.authSubject.next(true);
         }
@@ -31,11 +31,13 @@ export class AuthService {
     );
   }
   login(user: User): Observable<AuthResponse>{
+    let userMail = user.email;
+    console.log('Guardamos: ' + userMail);
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}logUser`, user).pipe(
       tap(async (res: AuthResponse)=> {
-        if(res.user){
-          await this.storage.set("ACCESS_TOKEN", res.user.token);
-          await this.storage.set("USER_EMAIL", user.email);
+        if(res.token){
+          await this.storage.set("ACCESS_TOKEN", res.token);
+          await this.storage.set("USER_EMAIL", userMail);
           this.authSubject.next(true);    
         }
       })
@@ -46,8 +48,40 @@ export class AuthService {
     await this.storage.remove("USER_EMAIL");
 
   }
-  isLoggedIn(){
-    return this.authSubject.asObservable();
+  /*
+   async isLoggedIn(){
+    const userToken = await this.storage.get("ACCESS_TOKEN");//await this.storage.get("ACCESS_TOKEN");
+    let logged = false;
+    const httOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/x-www-form-urlencoded',
+        'authorization': userToken,
+      })
+    }
+     this.httpClient.get<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}user/private`,httOptions).pipe(
+       tap(async (res: AuthResponse) =>{
+         if(res.logged != null){
+          logged = await res.logged;
+          console.log("El usuario se ha logueado?" + logged);
+         }
+       }
+    ));
+      return logged;
+  }
+  */
+ async isLoggedIn(){
+  var resul:Boolean
+  await this.storage.get("USER_EMAIL").then((data) => {
+    resul = data == null
+  })
+  return !resul
+}
+  async setEmail(email:string){
+    await this.storage.set("USER_MAIL", email);
+  }
+   async getEmail(){
+    let mail = await this.storage.get("USER_EMAIL");
+    return mail; 
   }
 
 }
