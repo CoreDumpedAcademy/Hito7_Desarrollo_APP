@@ -6,7 +6,7 @@
 <ion-content>
   <ion-item>
     <ion-label>Favourite language</ion-label>
-    <ion-select [(ngModel)]="lang" class="selectedSetting" okText="Guardar" value="{{favLang.user.preferences.favLanguage}}" cancelText="Cancelar" (ionChange)="onLangChange()">
+    <ion-select [(ngModel)]="lang" class="selectedSetting" okText="Guardar" *ngIf="gotLang" value="{{favLang.user.preferences.favLanguage}}" cancelText="Cancelar" (ionChange)="onLangChange()">
       <ion-select-option value="ar">العربية</ion-select-option>
       <ion-select-option value="de">Deutsch</ion-select-option>
       <ion-select-option value="en">English</ion-select-option>
@@ -24,7 +24,7 @@
   </ion-item>
   <ion-item>
     <ion-label>Favourite country</ion-label>
-    <ion-select [(ngModel)]="country" class="selectedSetting" okText="Guardar" cancelText="Cancelar" (ionChange)="onCountryChange()">
+    <ion-select [(ngModel)]="country" class="selectedSetting" okText="Guardar" cancelText="Cancelar" *ngIf="gotCountry" value="{{favCountry.user.preferences.favCountry}}" (ionChange)="onCountryChange()">
       <ion-select-option value="ae">United arabic emirates</ion-select-option>
       <ion-select-option value="ar">Argentina</ion-select-option>
       <ion-select-option value="at">Australia</ion-select-option>

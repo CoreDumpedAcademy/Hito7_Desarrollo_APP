@@ -10,21 +10,31 @@ import { ToastController } from '@ionic/angular';
 export class SettingsPage implements OnInit {
 
   lang;
-  country;
-  favLang;
+  country
+  favLang
+  favCountry
+  gotLang
+  gotCountry
   id = '5caf599e46f70034cf7ba93d' //todo change id to actual id you want to update
 
   constructor(public service: SettingsService, public toastController: ToastController) {
     this.lang = 'en'
     this.country = 'us'
+    this.gotLang = false
+    this.gotCountry = false
   }
 
   async ngOnInit() {
-  
-    await this.service.getLangFav(this.id).subscribe(async (data)=>{
+    await this.service.getLangFav(this.id).subscribe(async (data) => {
       this.favLang = await data
-      console.log(data)
-    })  
+      this.gotLang = true
+      this.lang = this.favLang.user.preferences.favLanguage
+    })
+    await this.service.getCountryFav(this.id).subscribe(async (data) => {
+      this.favCountry = await data
+      this.gotCountry = true
+      this.country = this.favCountry.user.preferences.favCountry
+    })
 
   }
 
