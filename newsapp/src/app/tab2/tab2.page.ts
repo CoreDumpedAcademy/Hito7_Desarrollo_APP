@@ -11,6 +11,7 @@ import { SettingsService } from '../service/settings.service';
 import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 import { Router } from '@angular/router';
 var moment = require('moment');
+import {ChartsService} from '../charts/charts-service.service';
 
 @Component({
   selector: 'app-tab2',
@@ -18,15 +19,16 @@ var moment = require('moment');
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-
-  categories: Array<any> = [];
-  public category: string = 'general';
-  public keyWords: string = '';
-  private apiUrl = 'http://127.0.0.1:3000/api/news/';
-  public news = null;
-  public searchedNews: boolean = false;
-
-  constructor(public navCtrl: NavController, public service: NewsService, public settingsservice: SettingsService, public httpClient: HttpClient, public auth: AuthService, public router: Router) {
+      category: string
+      categories: Array <any> = [];
+      searchedNews:boolean;
+      public keyWords:string = '';
+      private apiUrl = 'http://127.0.0.1:3000/api/news/';
+      news;
+      articles;
+      page = 1;
+      savecategory;
+  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient:HttpClient, private router: Router, private chartService: ChartsService, private settingsservice: SettingsService){
     this.categories = [
       { name: 'sports', img: 'sports.jpg' },
       { name: 'business', img: 'economy.jpg' },
@@ -40,9 +42,6 @@ export class Tab2Page implements OnInit {
 
   //Funiones de la API
   gotnews = false
-  articles
-  page = 1;
-  savecategory
   country
   lang
   gotLang
@@ -65,32 +64,34 @@ export class Tab2Page implements OnInit {
   openCategory(cat) {
     this.category = cat.name;
     console.log(this.category)
-    if (this.keyWords == "" && this.keyWords != undefined) {
-      this.loadArticles(this.category)
-    } else {
-      this.search()
-    }
-  }
-
-  fecha(fechaISO) {
-    return moment(fechaISO).format('DD/MM/YYYY')
+    this.loadArticles(cat)
   }
 
   //Funiones de la API
-  search() {
+ async search(){
     this.gotnews = false
     this.news = null;
     this.searchedNews = true;
-    if (this.category === undefined) this.category = 'general'
-    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}&lang=${this.lang}`).subscribe(
-      (data) => {
-        console.log(data);
-        this.news = data;
-        this.news = this.news.response;
-        this.gotnews = true
-      },
-      (err) => console.log(err)
+    if(this.category==='') this.category = 'general'
+    this.keyWords.toLocaleLowerCase();
+    this.chartService.newSearch();
+    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
+       (data) =>{
+         console.log(data);
+         this.news = data;
+         this.news = this.news.response;
+         this.gotnews = true
+        },
+       (err) => console.log(err)
     );
+    let splittedKeyword = this.keyWords.split(' ');
+    if(this.authService.isLoggedIn()){
+      let mail = await this.authService.getEmail();
+      splittedKeyword.forEach((element) => {
+        this.service.addKeyWordView(element, mail)
+  
+      });
+    }
   }
 
   //Mostrar noticia en otra tab 
@@ -101,11 +102,11 @@ export class Tab2Page implements OnInit {
 
   //Cargar primeras noticias 
   async ngOnInit() {
-    var bool = await this.auth.isLoggedIn()
+    var bool = await this.authService.isLoggedIn()
     if (!bool) {
       this.router.navigateByUrl('login')
     }
-    this.user = await this.auth.getEmail();// user debería ser el usuario actual, si está logueado 
+    this.user = await this.authService.getEmail();// user debería ser el usuario actual, si está logueado 
     await this.service.getUser(this.user).subscribe(
       async (data) => {
         this.usuario = await data
@@ -146,6 +147,11 @@ export class Tab2Page implements OnInit {
   loadArticles(category) {
     this.page = 1;
     console.log(category)
+    if( this.authService.isLoggedIn()){
+      let mail =  await this.authService.getEmail();
+      console.log("Mandamos: " + mail + ':'+ category.name);
+      this.service.addCategoryView(category.name, mail);
+    }
     this.service.readCategory(category, this.page, this.country)
       .subscribe(
         (data) => {
@@ -190,4 +196,3 @@ export class Tab2Page implements OnInit {
       )
   }
 
-}
