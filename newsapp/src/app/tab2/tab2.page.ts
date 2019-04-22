@@ -11,7 +11,7 @@ import { SettingsService } from '../service/settings.service';
 import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 import { Router } from '@angular/router';
 var moment = require('moment');
-import {ChartsService} from '../charts/charts-service.service';
+import { ChartsService } from '../charts/charts-service.service';
 
 @Component({
   selector: 'app-tab2',
@@ -19,16 +19,16 @@ import {ChartsService} from '../charts/charts-service.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-      category: string
-      categories: Array <any> = [];
-      searchedNews:boolean;
-      public keyWords:string = '';
-      private apiUrl = 'http://127.0.0.1:3000/api/news/';
-      news;
-      articles;
-      page = 1;
-      savecategory;
-  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient:HttpClient, private router: Router, private chartService: ChartsService, private settingsservice: SettingsService){
+  category: string = 'general'
+  categories: Array<any> = [];
+  searchedNews: boolean;
+  public keyWords: string = '';
+  private apiUrl = 'http://127.0.0.1:3000/api/news/';
+  news;
+  articles;
+  page = 1;
+  savecategory;
+  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient: HttpClient, private router: Router, private chartService: ChartsService, private settingsservice: SettingsService) {
     this.categories = [
       { name: 'sports', img: 'sports.jpg' },
       { name: 'business', img: 'economy.jpg' },
@@ -61,37 +61,48 @@ export class Tab2Page implements OnInit {
     slidesPerView: 2.3
   }
 
-  openCategory(cat) {
+  async openCategory(cat) {
+    let mail = await this.authService.getEmail();
     this.category = cat.name;
+    this.service.addCategoryView(cat.name, mail);
     console.log(this.category)
-    this.loadArticles(cat)
+    this.loadArticles(this.category)
+
   }
 
   //Funiones de la API
- async search(){
+  async search() {
+
     this.gotnews = false
     this.news = null;
     this.searchedNews = true;
-    if(this.category==='') this.category = 'general'
+    if (this.category === undefined) this.category = 'general'
+
+
+
+    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}&lang=${this.lang}`).subscribe(
+      (data) => {
+        console.log(data);
+        this.news = data;
+        this.news = this.news.response;
+        this.gotnews = true
+      },
+      (err) => console.log(err)
+    );
+
     this.keyWords.toLocaleLowerCase();
     this.chartService.newSearch();
-    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
-       (data) =>{
-         console.log(data);
-         this.news = data;
-         this.news = this.news.response;
-         this.gotnews = true
-        },
-       (err) => console.log(err)
-    );
+
     let splittedKeyword = this.keyWords.split(' ');
-    if(this.authService.isLoggedIn()){
+    if (this.authService.isLoggedIn()) {
       let mail = await this.authService.getEmail();
       splittedKeyword.forEach((element) => {
         this.service.addKeyWordView(element, mail)
-  
+
       });
     }
+
+
   }
 
   //Mostrar noticia en otra tab 
@@ -140,16 +151,15 @@ export class Tab2Page implements OnInit {
       }
     )
 
-
   }
 
   //Cargar por categoria
   async loadArticles(category) {
     this.page = 1;
     console.log(category)
-    if( this.authService.isLoggedIn()){
-      let mail =  await this.authService.getEmail();
-      console.log("Mandamos: " + mail + ':'+ category.name);
+    if (this.authService.isLoggedIn()) {
+      let mail = await this.authService.getEmail();
+      console.log("Mandamos: " + mail + ':' + category.name);
       this.service.addCategoryView(category.name, mail);
     }
     this.service.readCategory(category, this.page, this.country)
