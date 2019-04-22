@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: './auth/login/login.module#LoginPageModule' },
   { path: 'modal-filters', loadChildren: './modal-filters/modal-filters.module#ModalFiltersPageModule' },
   { path: 'edit-user', loadChildren: './edit-user/edit-user.module#EditUserPageModule' },
-  { path: 'success', loadChildren: './success/success.module#SuccessPageModule' }
+  { path: 'success', loadChildren: './success/success.module#SuccessPageModule' },
+  { path: 'deleteuser', loadChildren: './deleteuser/deleteuser.module#DeleteuserPageModule' }
 ];
 
 @NgModule({
@@ -20,4 +21,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
-

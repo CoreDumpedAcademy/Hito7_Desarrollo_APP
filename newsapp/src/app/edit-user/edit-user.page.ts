@@ -90,4 +90,8 @@ export class EditUserPage implements OnInit {
   goBack(){
     this.router.navigateByUrl('')
   }
+
+  deactivate(){
+    this.router.navigateByUrl('deleteuser')
+  }
 }

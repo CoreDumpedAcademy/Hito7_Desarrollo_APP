@@ -1,0 +1,24 @@
+<ion-content>
+  <div class="background">
+    <ion-grid>
+      <ion-card style="background-color: whitesmoke">
+        <ion-card-content>
+          <p style="font-size: 25px"> You are about to delete your user</p><br>
+          <p style="font-size: 20px">Your data will be kept for a month, and your account can be recovered
+          by loggin in normally.<br>However, after a month, your data will be removed and your account will never<br>
+          be accesible again.<br><br><h2>Are you sure you want to continue?</h2></p>
+          </ion-card-content>
+      </ion-card>
+      <form #form="ngForm" (ngSubmit)="delete(form)">
+        <ion-col>
+          <ion-input name="password" type="password" placeholder="Introduce your password" ngModel></ion-input>
+        </ion-col>
+      <div padding>
+        <p style="text-align: center">{{err}}</p>
+        <ion-button size="large" expand="block" (click)="goBack()">Go back</ion-button><br>
+        <ion-button expand="block" type="submit">Proceed</ion-button>
+      </div>
+      </form>
+    </ion-grid>
+  </div>
+</ion-content>
