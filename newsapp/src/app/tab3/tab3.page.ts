@@ -35,6 +35,12 @@ export class Tab3Page {
     )
   }
 
+  logOut(){
+    this.authService.logOut()
+    this.router.navigateByUrl('')
+    this.router.navigateByUrl('login')
+  }
+
   loadSettings(){
     this.router.navigateByUrl('edit-user')
   }

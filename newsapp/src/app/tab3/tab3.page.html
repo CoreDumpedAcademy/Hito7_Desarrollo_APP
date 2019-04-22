@@ -22,6 +22,11 @@
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  <ion-fab vertical="top" horizontal="end" (click)="logOut()">
+    <ion-fab-button color="danger">
+      <ion-icon name="walk"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <div *ngIf="news != undefined">
     <ion-card class="light" *ngFor="let article of news.user.favNews; index as i">
         <ion-card-header>
