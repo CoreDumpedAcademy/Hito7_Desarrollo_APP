@@ -32,8 +32,8 @@
 
   <div *ngIf="gotnews">
     <div *ngIf="searchedNews; else elseblock">
-      <ion-card *ngFor="let article of news.articles" (click)="goToArticle(article)">
-        <ion-card-header>
+      <ion-card *ngFor="let article of news.articles">
+        <ion-card-header  (click)="goToArticle(article)">
           <ion-card-content>
             <div *ngIf="article.urlToImage != null && article.urlToImage != undefined">
               <img [src]="article.urlToImage" style="height: 100%;">
@@ -53,7 +53,7 @@
           </ion-chip>
         </ion-card-header>
 
-        <ion-card-content>
+        <ion-card-content  (click)="goToArticle(article)">
           {{ article.description }}
         </ion-card-content>
         <ion-grid>
