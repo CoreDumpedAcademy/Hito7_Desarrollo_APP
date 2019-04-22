@@ -43,6 +43,8 @@ export class Tab1Page implements OnInit {
 
   async ngOnInit() {
 
+    //Al iniciar tab cargar noticias e idioma preferido del usuario
+
     this.gotnews = false
 
     this.user = await this.auth.getEmail();// user debería ser el usuario actual, si está logueado 
@@ -70,6 +72,9 @@ export class Tab1Page implements OnInit {
     )    
   }
 
+  /**
+   * Abrir y cerrar modal de filtros
+   */
   async openModal() {
     this.gotnews = false
     const modal = await this.modalController.create({
@@ -96,6 +101,10 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
+  /**
+   * Pasar de fecha ISO8601 a DD/MM/YYYY
+   * @param fechaISO 
+   */
   fecha(fechaISO) {
     return moment(fechaISO).format('DD/MM/YYYY')
   }
@@ -104,6 +113,22 @@ export class Tab1Page implements OnInit {
   goToArticle(article) {
     this.service.currentArticle = article;
     this.router.navigate(['/article']);
+  }
+
+  /**
+   * Guardar noticias
+   * @param noticia:String
+   */
+  saveNew(noticia) {
+    this.service.saveNew(noticia)
+      .subscribe(
+        (data) => {
+          console.log(data)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
   }
 
   //Cargar más noticiad Infinite Scroll
@@ -123,7 +148,9 @@ export class Tab1Page implements OnInit {
         })
   }
 
-
+  /**
+   * Como la funcion anterior pero antes de llegar al infinite scroll
+   */
   loadArticlesFilter() {
     this.page = 1;
     this.service.readNewsFilter(this.page, this.lang, this.sortBy, this.until, this.from)

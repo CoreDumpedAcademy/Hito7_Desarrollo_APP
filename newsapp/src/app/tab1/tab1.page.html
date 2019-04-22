@@ -11,8 +11,8 @@
 
 <!--Noticias-->
 <ion-content>
-  <ion-card *ngFor="let article of articles" (click)="goToArticle(article)">
-    <ion-card-header>
+  <ion-card *ngFor="let article of articles">
+    <ion-card-header (click)="goToArticle(article)">
       <ion-card-content>
         <div *ngIf="article.urlToImage != null && article.urlToImage != undefined">
           <img [src]="article.urlToImage" style="height: 100%;">
@@ -33,9 +33,15 @@
     </ion-card-header>
 
 
-    <ion-card-content>
+    <ion-card-content  (click)="goToArticle(article)">
       {{ article.description }}
     </ion-card-content>
+    <ion-grid>
+      <ion-chip color="tertiary" (click)="saveNew(this.article)">
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-label>Save Article</ion-label>
+      </ion-chip>
+    </ion-grid>
   </ion-card>
 
   <ion-infinite-scroll threshold="150px" (ionInfinite)="loadArticles($event)">
