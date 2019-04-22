@@ -11,7 +11,12 @@ var USER // Este campo representa el usuario actual.
 })
 export class NewsService {
 
-  currentArticle: any;
+  currentArticle: {
+    title:string,
+    author:string,
+    description:string,
+    urlToImage:string,
+  };
 
   constructor(public http: HttpClient, public auth : AuthService) { 
     console.log('News service ok');

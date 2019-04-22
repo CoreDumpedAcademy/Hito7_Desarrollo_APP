@@ -7,6 +7,8 @@ import { tap } from  'rxjs/operators';
 import { Observable, BehaviorSubject } from  'rxjs';
 import { NewsService } from '../../service/news.service';
 import {AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import {ChartsService} from '../charts/charts-service.service';
 
 @Component({
   selector: 'app-tab2',
@@ -23,7 +25,7 @@ export class Tab2Page implements OnInit {
       articles;
       page = 1;
       savecategory;
-  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient:HttpClient){
+  constructor(public navCtrl: NavController, public service: NewsService, private authService: AuthService, private httpClient:HttpClient, private router: Router, private chartService: ChartsService){
     this.categories = [
       {name:'sports', img:'sports.jpg' },
       {name: 'business', img:'economy.jpg'},
@@ -57,6 +59,7 @@ export class Tab2Page implements OnInit {
     this.searchedNews = true;
     if(this.category==='') this.category = 'general'
     this.keyWords.toLocaleLowerCase();
+    this.chartService.newSearch();
     this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
        (data) =>{
          console.log(data);
@@ -90,6 +93,11 @@ export class Tab2Page implements OnInit {
     )
   });
 }
+  //Mostrar noticia en otra tab 
+  goToArticle(article: any) {
+    this.service.currentArticle = article;
+    this.router.navigate(['/article']);
+}
   
   //Cargar por categoria
   async loadArticles(category){
@@ -105,7 +113,9 @@ export class Tab2Page implements OnInit {
         this.articles = this.news.articles
         console.log(data);
       }, 
-      (error) => {console.log(error);}
+      (error) => {
+        console.log(error);
+      }
     );
     this.savecategory = category;
   }
