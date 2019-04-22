@@ -48,17 +48,19 @@ En la tab 2 nos encontramos las categorias, para ellos hemos hecho uso del endpo
 
 La tab 3 está orientada al usuario, en ella aparece la imagen de perfil del usuario y los post que ha marcado como favoritos, tambien esta el boton de ajustes, editar usuario y logout
 
+***
+
 ## Info
 
 
-//SLIDER categorías
+#### Slider categorías
 
 1. Dentro de tab2.page.ts tenemos un array de categorias para crear slides 
 2. En tab2.page.html creamos el slider y dentro un bucle de cat of categories con imagenes
  . Los banners están hechos en photoshop (el archivo no está en el proyecto) y las imágenes guardadas en assets.
 3. Para la cofiguración del slider tenemos un array de atributos en tab2.page.ts sliderConfig.
 
-//CONEXIÓN IONIC-API
+#### CONEXIÓN IONIC-API
 ----Parte común a toda la app-----
 1. Crear news services (para conexión nuestra API)
  . Importar HttpClienModule y HttpClient
@@ -73,19 +75,19 @@ La tab 3 está orientada al usuario, en ella aparece la imagen de perfil del usu
 	. Variable news donde guardamos respuesta función ionViewDidLoad() que recibe info de readNews()
  	. Para lectura en tab2.page.html bucle article of news.response.articles
 
-//FUNCIONALIDAD leer noticias por categoría
+#### FUNCIONALIDAD leer noticias por categoría
 1. Nueva función en news.service.ts "readCategory(category)" recibe el nombre de la categoria y sustituye el valor en la ruta 
 2. Dentro tab2.page.ts, añadimos categoría "general" a array categories y con esta se hará la primera llamada (antes de darle a una categoría)
 3.  Modificada función "ionViewDidLoad(categories)" para recibir categoría necesaria en función "readCategory(category)" devuelve data.
 4. Dentro de tab2.page.html llamada a la función cuando se hace click en slide con valor categories igual a categoría de la slide.
 
-// HOME
+#### HOME
 1. Ciclo de articulos de api iniciadas con la función "ngOnInit()"
 2. 150px antes de llegar al final se carga función "loadMoreArticles()"
 3. Al hacer click en una noticia se abre una nueva tab con contenido articulo "goToArticle()"
 * Las noticias están limitadas a 5 por página, por cada función se carga la siguiente página 
 
-//CATEGORÍAS actualización
+#### CATEGORÍAS actualización
 1. ngOnInit() para no tener que darle a "CATEGORIES" para cargar la página
 2. En loadArticles por categoria guardamos la categoria en "savecategory"
  para que el infinite scroll cargue noticias de la misma categoría en la que estas.
