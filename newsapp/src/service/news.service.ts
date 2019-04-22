@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from "../app/auth/auth.service"
-
+import { tap } from  'rxjs/operators';
 const API = "http://localhost:3000/api"
 var USER // Este campo representa el usuario actual.
 
@@ -11,7 +11,12 @@ var USER // Este campo representa el usuario actual.
 })
 export class NewsService {
 
-  currentArticle: any;
+  currentArticle: {
+    title:string,
+    author:string,
+    description:string,
+    urlToImage:string,
+  };
 
   constructor(public http: HttpClient, public auth : AuthService) { 
     console.log('News service ok');
@@ -78,7 +83,35 @@ export class NewsService {
     return this.http.put(`${API}/user/deactivate/${username}`, {})
   }
 
-  activateUser(username){
+  activateUser(username){}
     
+  addCategoryView(cat:string, mail:string){
+    console.log('Service: ' + mail + ':' + cat);
+    this.http.post(`${API}/user/addCategory/`,{"email":mail, "category":cat}).subscribe(
+      (val) => {
+          console.log("POST call successful value returned in body", val);
+      },
+      response => {
+          console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+      },
+    );
   }
+  addKeyWordView(kw:string, mail:string){
+    console.log('Service: ' + mail + ':' + kw);
+    this.http.post(`${API}/user/addKeyWord/`,{"email":mail, "q":kw}).subscribe(
+      (val) => {
+          console.log("POST call successful value returned in body", val);
+      },
+      response => {
+          console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+      },
+    );
+  }
+
 }

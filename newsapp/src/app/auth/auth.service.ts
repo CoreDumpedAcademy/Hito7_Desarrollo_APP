@@ -64,11 +64,8 @@ export class AuthService {
           logged = await res.logged;
           console.log("El usuario se ha logueado?" + logged);
          }
-
        }
-
     ));
-
       return logged;
   }
   */
