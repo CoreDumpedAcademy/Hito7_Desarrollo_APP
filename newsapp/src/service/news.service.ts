@@ -27,12 +27,15 @@ export class NewsService {
   }
 
   //Devolver noticias por categoría
-  readCategory(category, page){
-    return this.http.get(`http://localhost:3000/api/news/topheadlines?category=${category}&pageSize=5&page=${page}`);
+  readCategory(category, page,country){
+    return this.http.get(`http://localhost:3000/api/news/topheadlines?category=${category}&pageSize=5&page=${page}&country=${country}`);
   }
   //Devolver noticias por actualidad
-  readNews(page){
-    return this.http.get(`http://localhost:3000/api/news/topheadlines?pageSize=5&page=${page}`);
+  readNews(page,lang){
+    return this.http.get(`http://localhost:3000/api/news/everything?lang=${lang}&pageSize=5&page=${page}`);
+  }
+  readNewsFilter(page,lang,sortBy,from,until){
+    return this.http.get(`http://localhost:3000/api/news/everything?lang=${lang}&from=${from}&until=${until}&pageSize=5&page=${page}&sortBy=${sortBy}`);
   }
   readeverything(){
     return this.http.get(`${API}/news/everything`);

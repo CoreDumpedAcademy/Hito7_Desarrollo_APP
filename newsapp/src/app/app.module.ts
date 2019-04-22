@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewsService } from '../service/news.service';
 
+import { ModalFiltersPageModule } from './modal-filters/modal-filters.module'
 
 //Conexión Ionic-API
 import { HttpClientModule } from '@angular/common/http';
@@ -20,7 +21,7 @@ import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, HttpModule,IonicStorageModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, HttpModule,IonicStorageModule.forRoot(),ModalFiltersPageModule],
   providers: [
     StatusBar,
     SplashScreen,

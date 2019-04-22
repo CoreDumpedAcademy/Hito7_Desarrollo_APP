@@ -13,14 +13,25 @@
     <br><br><br><br><br>
   </div>
   <ion-toolbar>
-      <ion-title style="text-align: center">
-        FEED
-      </ion-title>
+    <ion-title>
+      <ion-chip style="text-align: center;margin-top:20px;" color="tertiary">
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-label>Saved news</ion-label>
+      </ion-chip>
+    </ion-title>
   </ion-toolbar>
-  <ion-fab vertical="top" horizontal="start" (click)="loadSettings()">
+  <ion-fab vertical="bottom" slot="fixed" horizontal="end" edge style="margin-bottom:40px;">
     <ion-fab-button>
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="loadEditUser()">
+        <ion-icon name="brush"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="loadSettings()">
+        <ion-icon name="settings"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
   <ion-fab vertical="top" horizontal="end" (click)="logOut()">
     <ion-fab-button color="danger">
@@ -29,32 +40,32 @@
   </ion-fab>
   <div *ngIf="news != undefined">
     <ion-card class="light" *ngFor="let article of news.user.favNews; index as i">
-        <ion-card-header>
-            <ion-card-content>
-                <img [src]= "article.urlToImage" style= "height: 100%;">
-            </ion-card-content>
-          <ion-card-title>{{ article.title }}</ion-card-title>
-        </ion-card-header>
-      
+      <ion-card-header>
         <ion-card-content>
-          {{ article.content }}
+          <img [src]="article.urlToImage" style="height: 100%;">
         </ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-chip color="danger" (click)="deleteArt(i)">
-                <ion-icon name="close"></ion-icon>
-                <ion-label>Delete Article</ion-label>
-              </ion-chip>
-            </ion-col>
-            <ion-col>
-              <ion-chip *ngIf="news.user.favNews[i].url != undefined" color="tertiary" (click)="readArt(article)">
-                <ion-icon name="bookmark"></ion-icon>
-                <ion-label>Read Article</ion-label>
-              </ion-chip>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-card-title>{{ article.title }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{ article.content }}
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-chip color="danger" (click)="deleteArt(i)">
+              <ion-icon name="close"></ion-icon>
+              <ion-label>Delete Article</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col>
+            <ion-chip *ngIf="news.user.favNews[i].url != undefined" color="tertiary" (click)="readArt(article)">
+              <ion-icon name="bookmark"></ion-icon>
+              <ion-label>Read Article</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card>
   </div>
 </ion-content>
