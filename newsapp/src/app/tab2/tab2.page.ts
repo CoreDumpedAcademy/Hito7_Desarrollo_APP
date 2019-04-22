@@ -144,7 +144,7 @@ export class Tab2Page implements OnInit {
   }
 
   //Cargar por categoria
-  loadArticles(category) {
+  async loadArticles(category) {
     this.page = 1;
     console.log(category)
     if( this.authService.isLoggedIn()){
@@ -195,4 +195,4 @@ export class Tab2Page implements OnInit {
         }
       )
   }
-
+}
