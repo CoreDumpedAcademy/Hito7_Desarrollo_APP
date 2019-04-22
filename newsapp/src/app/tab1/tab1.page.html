@@ -10,17 +10,28 @@
 </ion-header>
 
 <!--Noticias-->
-<ion-content >
+<ion-content>
   <ion-card *ngFor="let article of articles" (click)="goToArticle(article)">
     <ion-card-header>
       <ion-card-content>
-        <img [src]="article.urlToImage" style="height: 100%;">
+        <div *ngIf="article.urlToImage != null && article.urlToImage != undefined">
+          <img [src]="article.urlToImage" style="height: 100%;">
+        </div>
+        <div *ngIf="article.urlToImage == null">
+          <img src="https://i.imgur.com/U4nXWjs.png" style="height: 100%;">
+        </div>
       </ion-card-content>
       <ion-card-title>{{ article.title }}</ion-card-title>
-      <ion-chip color="dark"><ion-icon name="time"></ion-icon> <ion-label> {{fecha(article.publishedAt)}}</ion-label></ion-chip>
-      <ion-chip color="dark" *ngIf="article.author"><ion-icon name="person"></ion-icon> <ion-label> {{article.author}}</ion-label></ion-chip>
+      <ion-chip color="dark">
+        <ion-icon name="time"></ion-icon>
+        <ion-label> {{fecha(article.publishedAt)}}</ion-label>
+      </ion-chip>
+      <ion-chip color="dark" *ngIf="article.author">
+        <ion-icon name="person"></ion-icon>
+        <ion-label> {{article.author}}</ion-label>
+      </ion-chip>
     </ion-card-header>
-   
+
 
     <ion-card-content>
       {{ article.description }}
