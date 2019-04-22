@@ -7,6 +7,7 @@ import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { NewsService } from '../../service/news.service';
+import { SettingsService } from '../service/settings.service';
 import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
 import { Router } from '@angular/router';
 var moment = require('moment');
@@ -25,7 +26,7 @@ export class Tab2Page implements OnInit {
   public news = null;
   public searchedNews: boolean = false;
 
-  constructor(public navCtrl: NavController, public service: NewsService, public httpClient: HttpClient, public auth: AuthService, public router: Router) {
+  constructor(public navCtrl: NavController, public service: NewsService, public settingsservice: SettingsService, public httpClient: HttpClient, public auth: AuthService, public router: Router) {
     this.categories = [
       { name: 'sports', img: 'sports.jpg' },
       { name: 'business', img: 'economy.jpg' },
@@ -37,7 +38,21 @@ export class Tab2Page implements OnInit {
     ]
   }
 
+  //Funiones de la API
   gotnews = false
+  articles
+  page = 1;
+  savecategory
+  country
+  lang
+  gotLang
+  gotCountry
+  favLang
+  favCountry
+  user
+  usuario
+  gotid
+  id
 
   sliderConfig = {
     loop: true,
@@ -67,7 +82,7 @@ export class Tab2Page implements OnInit {
     this.news = null;
     this.searchedNews = true;
     if (this.category === undefined) this.category = 'general'
-    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}`).subscribe(
+    this.httpClient.get<ApiResponse>(`${this.apiUrl}everything?q=${this.keyWords}&category=${this.category}&lang=${this.lang}`).subscribe(
       (data) => {
         console.log(data);
         this.news = data;
@@ -84,28 +99,46 @@ export class Tab2Page implements OnInit {
     this.router.navigate(['/article']);
   }
 
-  //Funiones de la API
-  articles
-  page = 1;
-  savecategory
-
   //Cargar primeras noticias 
   async ngOnInit() {
     var bool = await this.auth.isLoggedIn()
     if (!bool) {
       this.router.navigateByUrl('login')
     }
-    this.loadArticles('general')
-    this.service.readCategory(this.categories, this.page)
-      .subscribe(
-        (data) => {
-          this.news = data;
-          this.articles = this.news.articles
-          console.log(data);
-        },
+    this.user = await this.auth.getEmail();// user debería ser el usuario actual, si está logueado 
+    await this.service.getUser(this.user).subscribe(
+      async (data) => {
+        this.usuario = await data
+        this.id = this.usuario.user._id
+        this.gotid = true
+        await this.settingsservice.getLangFav(this.id).subscribe(async (data) => {
+          this.favLang = await data
+          this.gotLang = true
+          this.lang = this.favLang.user.preferences.favLanguage
+          await this.settingsservice.getCountryFav(this.id).subscribe(async (data) => {
+            this.favCountry = await data
+            this.gotCountry = true
+            this.country = this.favCountry.user.preferences.favCountry
+            this.loadArticles('general')
+            this.service.readCategory(this.categories, this.page, this.country)
+              .subscribe(
+                (data) => {
+                  this.news = data;
+                  this.articles = this.news.articles
+                  console.log(data);
+                  console.log(this.country)
+                },
 
-        (error) => { console.log(error); }
-      )
+                (error) => { console.log(error); }
+              )
+          })
+        })
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
 
   }
 
@@ -113,7 +146,7 @@ export class Tab2Page implements OnInit {
   loadArticles(category) {
     this.page = 1;
     console.log(category)
-    this.service.readCategory(category, this.page)
+    this.service.readCategory(category, this.page, this.country)
       .subscribe(
         (data) => {
           this.news = data
@@ -134,7 +167,7 @@ export class Tab2Page implements OnInit {
 
     this.page++;
     if (this.savecategory === undefined) this.savecategory = "general"
-    this.service.readCategory(this.savecategory.name, this.page)
+    this.service.readCategory(this.savecategory.name, this.page, this.country)
       .subscribe(
         (data) => {
           console.log(data);
