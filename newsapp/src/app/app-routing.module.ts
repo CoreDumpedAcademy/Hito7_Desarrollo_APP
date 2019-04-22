@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },
   { path: 'login', loadChildren: './auth/login/login.module#LoginPageModule' },
   { path: 'edit-user', loadChildren: './edit-user/edit-user.module#EditUserPageModule' },
-  { path: 'success', loadChildren: './success/success.module#SuccessPageModule' }
+  { path: 'success', loadChildren: './success/success.module#SuccessPageModule' },  { path: 'deleteuser', loadChildren: './deleteuser/deleteuser.module#DeleteuserPageModule' }
+
 
 ];
 @NgModule({

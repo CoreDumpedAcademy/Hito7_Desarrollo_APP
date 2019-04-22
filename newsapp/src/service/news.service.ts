@@ -70,4 +70,12 @@ export class NewsService {
       password: password
     })
   }
+
+  deleteUser(username){
+    return this.http.put(`${API}/user/deactivate/${username}`, {})
+  }
+
+  activateUser(username){
+    
+  }
 }

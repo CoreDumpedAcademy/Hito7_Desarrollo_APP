@@ -14,7 +14,7 @@ export class SuccessPage implements OnInit {
   }
 
   goBack(){
-    this.router.navigateByUrl('')
+    this.router.navigateByUrl('login')
   }
 
 }
