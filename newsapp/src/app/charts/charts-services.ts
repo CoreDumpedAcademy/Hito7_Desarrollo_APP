@@ -1,15 +1,15 @@
 import { Component, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+//import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { single } from './data';
 export interface ChartsServices {
-  single: any[];
+ /* single: any[];
   multi: any[];
 
   view: any[] = [700, 400];
 
   // options
-  showXAxis = true;
+ showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
@@ -28,5 +28,5 @@ export interface ChartsServices {
 
   onSelect(event) {
     console.log(event);
-  }
+  }*/
 }
