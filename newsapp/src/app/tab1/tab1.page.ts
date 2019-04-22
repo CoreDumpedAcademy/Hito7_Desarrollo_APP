@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NewsService } from '../../service/news.service';
+import { SettingsService } from '../service/settings.service';
+import { AuthService } from './../auth/auth.service';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalFiltersPage } from '../modal-filters/modal-filters.page';
@@ -18,8 +20,8 @@ export class Tab1Page implements OnInit {
 
   categories: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public service: NewsService, private router: Router, public modalController: ModalController) {
-    
+  constructor(public navCtrl: NavController, public service: NewsService, public settingsservice: SettingsService, public auth: AuthService, private router: Router, public modalController: ModalController) {
+
   }
 
 
@@ -32,16 +34,40 @@ export class Tab1Page implements OnInit {
   from
   until
   gotnews
+  usuario
+  user
+  id
+  gotid
+  favLang
+  gotLang
 
-  ngOnInit() {
+  async ngOnInit() {
+
     this.gotnews = false
-    this.service.readNews(this.page).subscribe(
-      (data) => {
-        this.news = data;
-        this.articles = this.news.response.articles
-        console.log(data);
-        this.gotnews = true
-      })
+
+    this.user = await this.auth.getEmail();// user debería ser el usuario actual, si está logueado 
+    await this.service.getUser(this.user).subscribe(
+      async (data) => {
+        this.usuario = await data
+        this.id = this.usuario.user._id
+        this.gotid = true
+        await this.settingsservice.getLangFav(this.id).subscribe(async (data) => {
+          this.favLang = await data
+          this.gotLang = true
+          this.lang = this.favLang.user.preferences.favLanguage
+          this.service.readNews(this.page,this.lang).subscribe(
+            (data) => {
+              this.news = data;
+              this.articles = this.news.response.articles
+              console.log(data);
+              this.gotnews = true
+            })
+        })
+      },
+      (error) => {
+        console.log(error)
+      }
+    )    
   }
 
   async openModal() {
@@ -49,10 +75,10 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: ModalFiltersPage,
       componentProps: {
-        "lang":this.lang,
-        "sortBy":this.sortBy,
-        "fromDate":this.from,
-        "untilDate":this.until
+        "lang": this.lang,
+        "sortBy": this.sortBy,
+        "fromDate": this.from,
+        "untilDate": this.until
       }
     });
 
@@ -70,7 +96,7 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
-  fecha(fechaISO){
+  fecha(fechaISO) {
     return moment(fechaISO).format('DD/MM/YYYY')
   }
 
@@ -99,7 +125,7 @@ export class Tab1Page implements OnInit {
 
 
   loadArticlesFilter() {
-    this.page=1;
+    this.page = 1;
     this.service.readNewsFilter(this.page, this.lang, this.sortBy, this.until, this.from)
       .subscribe(
         (data) => {
