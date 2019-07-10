@@ -1,42 +1,56 @@
 <ion-header>
-    <ion-toolbar class = "container">
-      <ion-title (click)= "ionViewDidLoad()"> 
-        CATEGORIES
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <!--Slider de categorías-->
-  <ion-content>
-      <ion-slides [options]="sliderConfig">
-        <ion-slide *ngFor="let cat of categories">
-          <ion-card class= "slides" (click)= "openCategory()" >
-          
-                <img src= "../../assets/images/categories/{{ cat.img }}">
-           
-          </ion-card>
-        </ion-slide>
-      </ion-slides> 
-  
-  
+  <ion-toolbar class="container">
+    <ion-title>
+      PIOLIIN
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<!--Slider de categorías-->
+<ion-content>
+  <ion-searchbar animated clearIcon [(ngModel)]="keyWords" (ionChange)="search()"></ion-searchbar>
+  <ion-slides [options]="sliderConfig">
+    <ion-slide *ngFor="let cat of categories">
+      <ion-card class="slides" (click)="openCategory(cat)">
+
+        <img src="../../assets/images/categories/{{ cat.img }}">
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
   <!--Noticias-->
-  <div *ngIf="news != undefined">
-    <ion-card *ngFor="let article of news.response.articles">
-      <ion-card-header>
+
+  <div *ngIf="gotnews">
+    <div *ngIf="searchedNews; else elseblock">
+      <ion-card *ngFor="let article of news.articles">
+        <ion-card-header>
           <ion-card-content>
-              <img [src]= "article.urlToImage" style= "height: 100%;">
-           </ion-card-content>
-        <ion-card-title>{{ article.title }}</ion-card-title>
-      </ion-card-header>
-    
-      <ion-card-content>
+            <img [src]="article.urlToImage" style="height: 100%;">
+          </ion-card-content>
+          <ion-card-title>{{ article.title }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
           {{ article.description }}
-      </ion-card-content>
+        </ion-card-content>
       <ion-grid>
         <ion-chip color="tertiary" (click)="saveNew(this.article)">
           <ion-icon name="star-outline"></ion-icon>
           <ion-label>Save Article</ion-label>
         </ion-chip>
       </ion-grid>  
-    </ion-card>
+    </ion-card>  
+
+
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreArticles($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Pioliin">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
     </div>
-  </ion-content>
+  </div>
+  <ng-template #elseblock>
+    <h1></h1>
+  </ng-template>
+</ion-content>

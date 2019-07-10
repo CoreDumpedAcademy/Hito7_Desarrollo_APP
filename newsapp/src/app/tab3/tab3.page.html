@@ -17,13 +17,13 @@
         FEED
       </ion-title>
   </ion-toolbar>
-  <ion-fab vertical="top" horizontal="start">
+  <ion-fab vertical="top" horizontal="start" (click)="loadSettings()">
     <ion-fab-button>
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <div *ngIf="news != undefined">
-    <ion-card class="light" *ngFor="let article of news.user[0].favNews; index as i">
+    <ion-card class="light" *ngFor="let article of news.user.favNews; index as i">
         <ion-card-header>
             <ion-card-content>
                 <img [src]= "article.urlToImage" style= "height: 100%;">
@@ -43,7 +43,7 @@
               </ion-chip>
             </ion-col>
             <ion-col>
-              <ion-chip *ngIf="news.user[0].favNews[i].url != undefined" color="tertiary" (click)="readArt(article)">
+              <ion-chip *ngIf="news.user.favNews[i].url != undefined" color="tertiary" (click)="readArt(article)">
                 <ion-icon name="bookmark"></ion-icon>
                 <ion-label>Read Article</ion-label>
               </ion-chip>
